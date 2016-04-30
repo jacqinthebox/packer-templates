@@ -1,0 +1,55 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--natpf1", "guest_winrm,tcp,,55985,,5985" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ],
+      "guest_additions_mode": "attach",
+      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
+      "guest_os_type": "Windows2012_64",
+      "headless": false,
+      
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "answer_files/2016_core/Autounattend.xml",
+        "scripts/oracle-cert.cer",
+        "./scripts/sdelete.exe",
+        "./scripts/bootstrap.ps1",
+        "./scripts/unattend.xml"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "script": "./scripts/provision-core.ps1"
+    }
+  ],
+  "post-processors": [
+    [{
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows2016_core_{{.Provider}}.box",
+      "vagrantfile_template": "vagrantfile-windows-2016-core.template"
+    }
+    ]
+  ],
+  "variables": {
+     "iso_url": "https://aka.ms/tp5/serveriso",
+     "iso_checksum_type": "md5",
+     "iso_checksum": "6417ba460f95bd91ded05dfacd553783", 
+     "autounattend": "./answer_files/2016_core/Autounattend.xml"
+  }
+}
