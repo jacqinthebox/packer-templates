@@ -222,5 +222,5 @@
             <EnableLUA>false</EnableLUA>
         </component>
     </settings>
-    <cpi:offlineImage xmlns:cpi="urn:schemas-microsoft-com:cpi" cpi:source="wim:c:/wim/install.wim#Windows Server 2016 SERVERSTANDARD"/>
+      <cpi:offlineImage cpi:source="wim:c:/temp/iso2016/sources/install.wim#Windows Server 2016 Technical Preview 5 SERVERSTANDARDCORE" xmlns:cpi="urn:schemas-microsoft-com:cpi" />
 </unattend>
