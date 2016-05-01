@@ -15,7 +15,7 @@ if(1,3,4,5 -contains (Get-WmiObject win32_computersystem).DomainRole) { return }
 # Before anything else create the log output folder
 New-Item C:\Windows\Panther\Unattend -Type Directory
 New-Item c:\Logs -Type Directory
-Copy-Item a:\unattend.xml C:\Windows\Panther\Unattend\
+Copy-Item a:\unattend.xml C:\Logs\
 
 #disable LUA
 #New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\policies\system -Name EnableLUA -PropertyType DWord -Value 0 -Force

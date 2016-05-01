@@ -34,7 +34,7 @@
   "provisioners": [
     {
       "type": "powershell",
-      "script": "./scripts/provision-core.ps1"
+      "script": "./scripts/provision.ps1"
     }
   ],
   "post-processors": [
