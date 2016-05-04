@@ -49,7 +49,6 @@
   "variables": {
      "iso_url": "https://aka.ms/tp5/serveriso",
      "iso_checksum_type": "md5",
-     "iso_checksum": "6417ba460f95bd91ded05dfacd553783", 
-     "autounattend": "./answer_files/2016_core/Autounattend.xml"
-  }
+     "iso_checksum": "6417ba460f95bd91ded05dfacd553783" 
+     }
 }
