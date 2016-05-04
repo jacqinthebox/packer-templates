@@ -13,6 +13,7 @@ if([environment]::OSVersion.version.Major -lt 6) { return }
 if(1,3,4,5 -contains (Get-WmiObject win32_computersystem).DomainRole) { return }
 
 # Before anything else create the log output folder
+Write-Host "Copy unattend.xml to c:\logs"
 New-Item C:\Windows\Panther\Unattend -Type Directory
 New-Item c:\Logs -Type Directory
 Copy-Item a:\unattend.xml C:\Logs\
@@ -21,22 +22,19 @@ Copy-Item a:\unattend.xml C:\Logs\
 #New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\policies\system -Name EnableLUA -PropertyType DWord -Value 0 -Force
 
 # Get network connections
+
 $networkListManager = [Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}'))
 $connections = $networkListManager.GetNetworkConnections()
 
 $connections |foreach {
-    #Write-Host $_.GetNetwork().GetName()'category was previously set to'$_.GetNetwork().GetCategory()
+    Write-Host "Setting network config"
     $_.GetNetwork().GetName() + 'category was previously set to' + $_.GetNetwork().GetCategory() | Out-File c:\logs\logfile.txt
-
     $_.GetNetwork().SetCategory(1)
-
-    # Write-Host $_.GetNetwork().GetName()"changed to category"$_.GetNetwork().GetCategory()
     $_.GetNetwork().GetName() + 'change to ' + $_.GetNetwork().GetCategory() | Out-File C:\Logs\logfile.txt -Append
-
-
 }
 
 function Enable-WinRM {
+    Write-Host "Enable WinRM"
 netsh advfirewall firewall set rule group="remote administration" new enable=yes
 netsh advfirewall firewall add rule name="Open Port 5985" dir=in action=allow protocol=TCP localport=5985
 

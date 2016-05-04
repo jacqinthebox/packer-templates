@@ -23,7 +23,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "answer_files/2016_core/Autounattend.xml",
+        "answer_files/2016/Autounattend.xml",
         "scripts/oracle-cert.cer",
         "./scripts/sdelete.exe",
         "./scripts/bootstrap.ps1",
@@ -42,7 +42,7 @@
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "windows2016_core_{{.Provider}}.box",
-      "vagrantfile_template": "vagrantfile-windows-2016-core.template"
+      "vagrantfile_template": "vagrantfile-windows-2016.template"
     }
     ]
   ],
