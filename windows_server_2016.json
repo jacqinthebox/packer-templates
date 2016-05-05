@@ -49,7 +49,7 @@
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "{{user `autounattend`}}",
+        "answer_files/2016/Autounattend.xml",
         "scripts/oracle-cert.cer",
         "./scripts/sdelete.exe",
         "./scripts/bootstrap.ps1",
