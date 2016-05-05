@@ -20,7 +20,14 @@ Get-PackageSource -Force -ForceBootstrap -Provider chocolatey
 'Installing Guest Additions' | Out-File c:\logs\logfile.txt -append
 Write-Host 'Installing Guest Additions'
 & cmd /c certutil -addstore -f 'TrustedPublisher' A:\oracle-cert.cer
+
+if (Test-Path e:\VBoxWindowsAdditions.exe) {
 & E:\VBoxWindowsAdditions.exe /S
+} else {
+    
+    & E:\PTAgent.exe /install_silent
+}
+
 
 Set-ItemProperty -Path 'HKLM:\SYSTEM\Setup\Status\SysprepStatus'  -Name  'GeneralizationState' -Value 7
 
