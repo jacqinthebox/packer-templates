@@ -48,5 +48,5 @@ vagrant box add --name windows_2016 windows_2016_virtualbox.box
 
 ###Trial version keys
 In case you need them:
-Standard Key: MFY9F-XBN2F-TYFMP-CCV49-RMYVH
-Datacenter Key: 6XBNX-4JQGW-QX6QG-74P76-72V67
+* Standard Key: MFY9F-XBN2F-TYFMP-CCV49-RMYVH
+* Datacenter Key: 6XBNX-4JQGW-QX6QG-74P76-72V67
