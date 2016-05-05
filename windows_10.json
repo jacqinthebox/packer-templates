@@ -37,9 +37,35 @@
           "2"
         ]
       ]
+    },
+   {
+      "type": "parallels-iso",
+      "prlctl":[
+        ["set", "{{.Name}}", "--memsize", "2048"],
+        ["set", "{{.Name}}", "--cpus", "1"]
+       ],  
+      "parallels_tools_flavor": "win",
+      "parallels_tools_mode" : "attach",
+      "guest_os_type": "win-10",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "{{user `autounattend`}}",
+        "scripts/oracle-cert.cer",
+        "./scripts/sdelete.exe",
+        "./scripts/bootstrap.ps1",
+        "./scripts/unattend.xml"
+      ]
     }
   ],
-   "provisioners": [
+  "provisioners": [
     {
       "type": "powershell",
       "scripts": [
