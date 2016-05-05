@@ -11,7 +11,7 @@ The Windows boxes are created with Packer version 0.10.0 and are using WinRM (no
 [Vagrant](https://www.vagrantup.com), [Packer](https://www.packer.io) and Virtualbox or Parallels.
 
 ###Linux 
-install them with your package provider.
+Install them with your package provider.
 
 ###MacOS
 You will need [Parallels Desktop 11](https://www.parallels.com/eu/products/desktop/download/). 
@@ -45,3 +45,8 @@ Add the box to Vagrant:
 ```
 vagrant box add --name windows_2016 windows_2016_virtualbox.box
 ```
+
+###Trial version keys
+In case you need them:
+Standard Key: MFY9F-XBN2F-TYFMP-CCV49-RMYVH
+Datacenter Key: 6XBNX-4JQGW-QX6QG-74P76-72V67
