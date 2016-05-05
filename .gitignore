@@ -1,3 +1,4 @@
 output-virtualbox-iso
-packer_cache
+output-parallels-iso
+packer_cachepacker-para*
 *.box
