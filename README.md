@@ -44,8 +44,7 @@ packer build -only parallels-iso windows_server_2016.json
 Add the box to Vagrant:
 ```
 vagrant box add --name windows_server_2016 windows2016_parallels.box 
-
-``
+```
 
 ###Trial version keys
 In case you need them:
