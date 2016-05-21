@@ -33,18 +33,19 @@ Install-Package -ProviderName Chocolatey - ForceBootstrap -Force vagrant,virtual
 
 Build for Virtualbox
 ```
-packer build -only virtualbox-iso windows_2016.json
+packer build -only virtualbox-iso windows_server_2016.json
 ```
 
 Or for Parallels:
 ```
-packer build -only parallels-iso windows_2016.json
+packer build -only parallels-iso windows_server_2016.json
 ```
 
 Add the box to Vagrant:
 ```
-vagrant box add --name windows_2016 windows_2016_virtualbox.box
-```
+vagrant box add --name windows_server_2016 windows2016_parallels.box 
+
+``
 
 ###Trial version keys
 In case you need them:
