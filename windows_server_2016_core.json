@@ -11,7 +11,7 @@
       "guest_additions_mode": "attach",
       "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
       "guest_os_type": "Windows2012_64",
-      "headless": false,
+      "headless": true,
       
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
@@ -21,7 +21,7 @@
       "winrm_password": "vagrant",
       "winrm_timeout": "8h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "15m",
+      "shutdown_timeout": "1h",
       "floppy_files": [
         "answer_files/2016_core/Autounattend.xml",
         "scripts/oracle-cert.cer",
