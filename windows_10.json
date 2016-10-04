@@ -5,7 +5,7 @@
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "headless": false,
+      "headless": true,
       "guest_additions_mode": "attach",
       "boot_wait": "2m",
       "communicator": "winrm",
@@ -13,7 +13,7 @@
       "winrm_password": "vagrant",
       "winrm_timeout": "5h",
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "15m",
+      "shutdown_timeout": "1h",
       "guest_os_type": "Windows81_64",
       "disk_size": 61440,
       "floppy_files": [
