@@ -15,10 +15,12 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 #Write-Host "Setting the chocolateypath to c:\programdata\chocolatey"
 #$path = [system.Environment]::GetEnvironmentVariable("path")
 #[System.Environment]::SetEnvironmentVariable("chocolateypath","c:\programdata\chocolatey") 
-invoke-restmethod -uri https://gist.githubusercontent.com/jacqinthebox/5a8e6025b1eb37d65f1e02fc9e75cc06/raw/d38e25533eddb330adff35e9d6b62b4568eeb04b/install-vs.ps1 -Outfile c:\users\vagrant\desktop\install.ps1
-
-choco install VisualStudio2015Community --yes --force --packageParameters "--AdminFile "
 CHOCO
+
+$choco = <<'DEVENV'
+invoke-restmethod -uri https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/install.ps1 -Outfile c:\users\vagrant\desktop\install.ps1
+choco install VisualStudio2015Community --yes --force --packageParameters "--AdminFile https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/AdminDeployment.xml "
+DEVENV
 
 Vagrant.configure(2) do |config|
   config.vm.define "w10" 
@@ -32,5 +34,6 @@ Vagrant.configure(2) do |config|
   end
   
   #config.vm.provision :shell, inline: $sysprep
-
+  config.vm.provision :shell,inline: $choco
+  config.vm.provision :shell,inline: $devenv
 end
