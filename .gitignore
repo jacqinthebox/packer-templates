@@ -6,3 +6,4 @@ packer_cache
 *.box
 packer*
 .DS_Store
+.vagrant

@@ -8,7 +8,7 @@ SYSPREP
 $choco = <<'CHOCO'
 Set-ExecutionPolicy Bypass -Force
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-#Write-Host "Setting the path to c:\programdata\chocolatey"
+Write-Host "Setting the path to c:\programdata\chocolatey"
 #$path = [system.Environment]::GetEnvironmentVariable("path")
 #$pad = $path + ";c:\programdata\chocolatey"
 #[System.Environment]::SetEnvironmentVariable("path","$pad") 
@@ -17,23 +17,24 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 #[System.Environment]::SetEnvironmentVariable("chocolateypath","c:\programdata\chocolatey") 
 CHOCO
 
-$DEVENV = <<'DEVENV'
-invoke-restmethod -uri https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/install.ps1 -Outfile c:\users\vagrant\desktop\install.ps1
-choco install VisualStudio2015Community --yes --force --packageParameters "--AdminFile https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/AdminDeployment.xml "
+$devenv = <<'DEVENV'
+#invoke-restmethod -uri https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/install.ps1 -Outfile c:\users\vagrant\desktop\install.ps1
+choco install VisualStudio2015Community --yes --force #--packageParameters "--AdminFile https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/AdminDeployment.xml "
 DEVENV
 
 Vagrant.configure(2) do |config|
   config.vm.define "w10" 
-  config.vm.box = "jacqinthebox/windows10LTSB"
+  config.vm.box = "windows_10"
   config.vm.hostname = "w10" 
   config.vm.network "private_network", ip: "192.168.56.60"
   config.vm.network :forwarded_port, guest: 3389, host: 33960, id: "rdp", auto_correct: true
 
-   config.vm.provider "virtualbox" do |v|
+  config.vm.provider "virtualbox" do |v|
     v.linked_clone = true
   end
   
   #config.vm.provision :shell, inline: $sysprep
-  config.vm.provision :shell,inline: $choco
-  config.vm.provision :shell,inline: $devenv
+  config.vm.provision :shell, :inline => $choco
+  config.vm.provision :shell, :inline => $devenv
+  
 end
