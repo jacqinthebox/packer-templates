@@ -19,7 +19,7 @@ CHOCO
 
 $devenv = <<'DEVENV'
 #invoke-restmethod -uri https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/install.ps1 -Outfile c:\users\vagrant\desktop\install.ps1
-choco install VisualStudio2015Community --yes --force #--packageParameters "--AdminFile https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/AdminDeployment.xml "
+choco install VisualStudio2015Community --yes --force --packageParameters "--AdminFile https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/AdminDeployment.xml"
 DEVENV
 
 Vagrant.configure(2) do |config|

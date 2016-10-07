@@ -9,17 +9,17 @@
     <SelectableItemCustomization Id="PythonToolsForVisualStudioV6" Hidden="no" Selected="yes" FriendlyName="Python Tools for Visual Studio (June 2016)" />
     <SelectableItemCustomization Id="WebToolsV1" Hidden="no" Selected="yes" FriendlyName="Microsoft Web Developer Tools" />
     <SelectableItemCustomization Id="Windows10_ToolsAndSDKV12" Hidden="no" Selected="yes" FriendlyName="Tools (1.4) and Windows 10 SDK (10.0.10586)" />
-    <SelectableItemCustomization Id="Win10_EmulatorV2" Hidden="no" Selected="yes" FriendlyName="Emulators for Windows 10 Mobile (10.0.10586)" />
-    <SelectableItemCustomization Id="XamarinVSCoreV4" Hidden="no" Selected="yes" FriendlyName="C#/.NET (Xamarin v4.1.0)" />
-    <SelectableItemCustomization Id="XamarinPT_V1" Selected="yes" FriendlyName="Xamarin Preparation Tool" />
-    <SelectableItemCustomization Id="AndroidNDKV1" Hidden="no" Selected="yes" FriendlyName="Android Native Development Kit (R10E, 32 bits)" />
-    <SelectableItemCustomization Id="AndroidNDK_32_V1" Hidden="no" Selected="yes" FriendlyName="Android Native Development Kit (R10E, 32 bits)" />
-    <SelectableItemCustomization Id="AndroidSDKV1" Hidden="no" Selected="yes" FriendlyName="Android SDK" />
-    <SelectableItemCustomization Id="AndroidSDK_API1921V1" Hidden="no" Selected="yes" FriendlyName="Android SDK Setup (API Level 19 and 21)" />
-    <SelectableItemCustomization Id="AndroidSDK_API23V1" Hidden="no" Selected="yes" FriendlyName="Android SDK Setup (API Level 23)" />
-    <SelectableItemCustomization Id="JavaJDKV1" Hidden="no" Selected="yes" FriendlyName="Java SE Development Kit (7.0.550.13)" />
-    <SelectableItemCustomization Id="Node.jsV1" Hidden="no" Selected="yes" FriendlyName="Joyent Node.js" />
-    <SelectableItemCustomization Id="VSEmu_AndroidV1.0.60404.1" Hidden="no" Selected="yes" FriendlyName="Microsoft Visual Studio Emulator for Android (April 2016)" />
+    <SelectableItemCustomization Id="Win10_EmulatorV2" Hidden="no" Selected="no" FriendlyName="Emulators for Windows 10 Mobile (10.0.10586)" />
+    <SelectableItemCustomization Id="XamarinVSCoreV4" Hidden="no" Selected="no" FriendlyName="C#/.NET (Xamarin v4.1.0)" />
+    <SelectableItemCustomization Id="XamarinPT_V1" Selected="no" FriendlyName="Xamarin Preparation Tool" />
+    <SelectableItemCustomization Id="AndroidNDKV1" Hidden="no" Selected="no" FriendlyName="Android Native Development Kit (R10E, 32 bits)" />
+    <SelectableItemCustomization Id="AndroidNDK_32_V1" Hidden="no" Selected="no" FriendlyName="Android Native Development Kit (R10E, 32 bits)" />
+    <SelectableItemCustomization Id="AndroidSDKV1" Hidden="no" Selected="no" FriendlyName="Android SDK" />
+    <SelectableItemCustomization Id="AndroidSDK_API1921V1" Hidden="no" Selected="no" FriendlyName="Android SDK Setup (API Level 19 and 21)" />
+    <SelectableItemCustomization Id="AndroidSDK_API23V1" Hidden="no" Selected="no" FriendlyName="Android SDK Setup (API Level 23)" />
+    <SelectableItemCustomization Id="JavaJDKV1" Hidden="no" Selected="no" FriendlyName="Java SE Development Kit (7.0.550.13)" />
+    <SelectableItemCustomization Id="Node.jsV1" Hidden="no" Selected="no" FriendlyName="Joyent Node.js" />
+    <SelectableItemCustomization Id="VSEmu_AndroidV1.0.60404.1" Hidden="no" Selected="no" FriendlyName="Microsoft Visual Studio Emulator for Android (April 2016)" />
     <SelectableItemCustomization Id="ToolsForWin81_WP80_WP81V1" Hidden="no" Selected="yes" FriendlyName="Tools and Windows SDKs" />
     <SelectableItemCustomization Id="GitForWindowsx64V5" Hidden="no" Selected="yes" FriendlyName="Git for Windows" />
     <SelectableItemCustomization Id="GitForWindowsx86V5" Hidden="no" Selected="yes" FriendlyName="Git for Windows" />
@@ -31,8 +31,8 @@
     <SelectableItemCustomization Id="JavaScript_HiddenV1" Selected="yes" FriendlyName="JavaScript Project System for Visual Studio" />
     <SelectableItemCustomization Id="JavaScript_HiddenV11" Selected="yes" FriendlyName="JavaScript Project System for Visual Studio" />
     <SelectableItemCustomization Id="MDDJSDependencyHiddenV1" Selected="yes" FriendlyName="MDDJSDependencyHidden" />
-    <SelectableItemCustomization Id="AppInsightsToolsVisualStudioHiddenRTMV1" Selected="yes" FriendlyName="Application Insights Tools" />
-    <SelectableItemCustomization Id="AppInsightsToolsVisualStudioHiddenVSU3RTMV1" Selected="yes" FriendlyName="Developer Analytics Tools v7.0.2" />
+    <SelectableItemCustomization Id="AppInsightsToolsVisualStudioHiddenRTMV1" Selected="no" FriendlyName="Application Insights Tools" />
+    <SelectableItemCustomization Id="AppInsightsToolsVisualStudioHiddenVSU3RTMV1" Selected="no" FriendlyName="Developer Analytics Tools v7.0.2" />
     <SelectableItemCustomization Id="BlissHidden" Selected="yes" FriendlyName="BlissHidden" />
     <SelectableItemCustomization Id="HelpHidden" Selected="yes" FriendlyName="HelpHidden" />
     <SelectableItemCustomization Id="JavaScript" Selected="yes" FriendlyName="JavascriptHidden" />
