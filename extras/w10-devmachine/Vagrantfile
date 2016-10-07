@@ -6,7 +6,7 @@ $sysprep = <<'SYSPREP'
 SYSPREP
 
 $choco = <<'CHOCO'
-Set-ExecutionPolicy -Bypass -Force
+Set-ExecutionPolicy Bypass -Force
 iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
 #Write-Host "Setting the path to c:\programdata\chocolatey"
 #$path = [system.Environment]::GetEnvironmentVariable("path")
@@ -17,7 +17,7 @@ iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/in
 #[System.Environment]::SetEnvironmentVariable("chocolateypath","c:\programdata\chocolatey") 
 CHOCO
 
-$choco = <<'DEVENV'
+$DEVENV = <<'DEVENV'
 invoke-restmethod -uri https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/install.ps1 -Outfile c:\users\vagrant\desktop\install.ps1
 choco install VisualStudio2015Community --yes --force --packageParameters "--AdminFile https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/w10-devmachine/AdminDeployment.xml "
 DEVENV
