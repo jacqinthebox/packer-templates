@@ -33,8 +33,32 @@ $connections |foreach {
     $_.GetNetwork().GetName() + 'change to ' + $_.GetNetwork().GetCategory() | Out-File C:\Logs\logfile.txt -Append
 }
 
+Function WSUSUpdate {
+	$Criteria = "IsInstalled=0 and Type='Software'"
+	$Searcher = New-Object -ComObject Microsoft.Update.Searcher
+	try {
+		$SearchResult = $Searcher.Search($Criteria).Updates
+		if ($SearchResult.Count -eq 0) {
+			Write-Output "There are no applicable updates."
+			exit
+		} 
+		else {
+			$Session = New-Object -ComObject Microsoft.Update.Session
+			$Downloader = $Session.CreateUpdateDownloader()
+			$Downloader.Updates = $SearchResult
+			$Downloader.Download()
+			$Installer = New-Object -ComObject Microsoft.Update.Installer
+			$Installer.Updates = $SearchResult
+			$Result = $Installer.Install()
+		}
+	}
+	catch {
+		Write-Output "There are no applicable updates."
+	}
+}
+
 function Enable-WinRM {
-    Write-Host "Enable WinRM"
+Write-Host "Enable WinRM"
 netsh advfirewall firewall set rule group="remote administration" new enable=yes
 netsh advfirewall firewall add rule name="Open Port 5985" dir=in action=allow protocol=TCP localport=5985
 
@@ -54,4 +78,7 @@ net start winrm
  
 }
 
+WSUSUpdate
+Get-WmiObject -Class Win32_UserAccount -Filter "name = 'vagrant'" | Set-WmiInstance -Arguments @{PasswordExpires = 0 }
 Enable-WinRM
+#If ($Result.rebootRequired) { Restart-Computer }

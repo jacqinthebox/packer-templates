@@ -119,7 +119,6 @@
                     <RequiresUserInput>true</RequiresUserInput>
                     <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap.ps1</CommandLine>
                     <Description>Bootstrap</Description>
-                </SynchronousCommand>
             </FirstLogonCommands>
             <UserAccounts>
                 <AdministratorPassword>
