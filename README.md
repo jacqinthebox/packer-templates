@@ -21,7 +21,7 @@ brew cask install vagrant
 vagrant plugin install vagrant-parallels
 ```
 * You also need the [Parallels Virtualization SDK](http://www.parallels.com/download/pvsdk/).
-* Download packer compiled for Mac and with Parallels 12 support from [here](http://files.in-the-box.nl/packer.zip)
+* Download packer compiled for Mac and with Parallels 12 support from [here](http://files.in-the-box.nl/packer.zip). See [this](https://github.com/mitchellh/packer/issues/3881) issue, so I build a Packer binary myself.
 
 ###Windows (10)
 You can install the prerequisites with packagemanagement:
