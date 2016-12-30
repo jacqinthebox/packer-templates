@@ -14,14 +14,14 @@ The Windows boxes are created with Packer version 0.10.0 and are using WinRM (no
 Install them with your package provider.
 
 ###MacOS
-You will need [Parallels Desktop 11](https://www.parallels.com/eu/products/desktop/download/). 
-Install with Brew:
+* You will need [Parallels Desktop 12](https://www.parallels.com/eu/products/desktop/download/). Unfortunately you need the Pro Edition for Vagrant support!
+* Install with Brew:
 ```bash
 brew cask install vagrant
-brew cask install packer
 vagrant plugin install vagrant-parallels
 ```
-You also need the [Parallels Virtualization SDK](http://www.parallels.com/download/pvsdk/).
+* You also need the [Parallels Virtualization SDK](http://www.parallels.com/download/pvsdk/).
+* Download packer compiled for Mac and with Parallels 12 support from [here](http://files.in-the-box.nl/packer.zip)
 
 ###Windows (10)
 You can install the prerequisites with packagemanagement:
@@ -37,6 +37,7 @@ packer build -only virtualbox-iso windows_server_2016.json
 ```
 
 Or for Parallels:
+
 ```
 packer build -only parallels-iso windows_server_2016.json
 ```
