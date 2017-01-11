@@ -13,16 +13,18 @@ if([environment]::OSVersion.version.Major -lt 6) { return }
 if(1,3,4,5 -contains (Get-WmiObject win32_computersystem).DomainRole) { return }
 
 # Before anything else create the log output folder
-Write-Host "Copy unattend.xml to c:\logs"
+Write-Host "Copy unattend.xml to C:\Windows\Panther\Unattend\"
 New-Item C:\Windows\Panther\Unattend -Type Directory
 New-Item c:\Logs -Type Directory
-Copy-Item a:\unattend.xml C:\Logs\
+Copy-Item a:\unattend.xml C:\Windows\Panther\Unattend\
+Write-Host "Script to install updates afterwards"
+Copy-Item a:\windows-updates.ps1 c:\Users\vagrant\Desktop\
+Copy-Item a:\shutdown.bat c:\Users\vagrant\Desktop\
 
-#disable LUA
-#New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\policies\system -Name EnableLUA -PropertyType DWord -Value 0 -Force
+
+#"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
 
 # Get network connections
-
 $networkListManager = [Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}'))
 $connections = $networkListManager.GetNetworkConnections()
 
@@ -31,30 +33,6 @@ $connections |foreach {
     $_.GetNetwork().GetName() + 'category was previously set to' + $_.GetNetwork().GetCategory() | Out-File c:\logs\logfile.txt
     $_.GetNetwork().SetCategory(1)
     $_.GetNetwork().GetName() + 'change to ' + $_.GetNetwork().GetCategory() | Out-File C:\Logs\logfile.txt -Append
-}
-
-Function WSUSUpdate {
-	$Criteria = "IsInstalled=0 and Type='Software'"
-	$Searcher = New-Object -ComObject Microsoft.Update.Searcher
-	try {
-		$SearchResult = $Searcher.Search($Criteria).Updates
-		if ($SearchResult.Count -eq 0) {
-			Write-Output "There are no applicable updates."
-			exit
-		} 
-		else {
-			$Session = New-Object -ComObject Microsoft.Update.Session
-			$Downloader = $Session.CreateUpdateDownloader()
-			$Downloader.Updates = $SearchResult
-			$Downloader.Download()
-			$Installer = New-Object -ComObject Microsoft.Update.Installer
-			$Installer.Updates = $SearchResult
-			$Result = $Installer.Install()
-		}
-	}
-	catch {
-		Write-Output "There are no applicable updates."
-	}
 }
 
 function Enable-WinRM {
@@ -75,10 +53,8 @@ winrm set winrm/config/client/auth '@{Basic="true"}'
 net stop winrm
 sc.exe config winrm start= auto
 net start winrm
- 
+
 }
 
-WSUSUpdate
 Get-WmiObject -Class Win32_UserAccount -Filter "name = 'vagrant'" | Set-WmiInstance -Arguments @{PasswordExpires = 0 }
 Enable-WinRM
-#If ($Result.rebootRequired) { Restart-Computer }

@@ -14,17 +14,18 @@ Write-Host 'Enabling RDP'
 netsh advfirewall firewall add rule name="Remote Desktop" dir=in localport=3389 protocol=TCP action=allow
 reg add 'HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server' /v fDenyTSConnections /t REG_DWORD /d 0 /f
 
-Import-Module PackageManagement -Force
-Get-PackageSource -Force -ForceBootstrap -Provider chocolatey 
+#Import-Module PackageManagement -Force
+#Get-PackageSource -Force -ForceBootstrap -Provider chocolatey 
 
 'Installing Guest Additions' | Out-File c:\logs\logfile.txt -append
-Write-Host 'Installing Guest Additions'
+Write-Host 'Installing Guest Additions (but not for for Hyper-V)'
 & cmd /c certutil -addstore -f 'TrustedPublisher' A:\oracle-cert.cer
 
 if (Test-Path e:\VBoxWindowsAdditions.exe) {
 & E:\VBoxWindowsAdditions.exe /S
-} else {
-    
+} 
+
+if (Test-Path e:\PTAgent.exe) {
     & E:\PTAgent.exe /install_silent
 }
 
