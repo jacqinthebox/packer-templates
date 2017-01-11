@@ -10,7 +10,7 @@
         "./scripts/sdelete.exe",
         "./scripts/bootstrap.ps1",
         "./scripts/unattend.xml",
-        "./scripts/shutdown.bat",
+        "./scripts/sysprep.bat",
         "./scripts/windows-updates.ps1"
       ],
     "http_directory": "./windows/common/http/",

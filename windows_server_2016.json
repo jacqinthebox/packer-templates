@@ -19,7 +19,7 @@
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "8h",
-      "shutdown_command": "C:/Windows/Panther/Unattend/shutdown.bat",
+      "shutdown_command": "C:/Windows/Panther/Unattend/sysprep.bat",
       "shutdown_timeout": "15m",
       "floppy_files": [
         "answer_files/2016/Autounattend.xml",
@@ -27,7 +27,7 @@
         "./scripts/sdelete.exe",
         "./scripts/bootstrap.ps1",
         "./scripts/unattend.xml",
-        "./scripts/shutdown.bat",
+        "./scripts/sysprep.bat",
         "./scripts/windows-updates.ps1"
       ]
     },
@@ -47,7 +47,7 @@
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "8h",
-      "shutdown_command": "C:/Windows/Panther/Unattend/shutdown.bat",
+      "shutdown_command": "C:/Windows/Panther/Unattend/sysprep.bat",
       "shutdown_timeout": "15m",
       "floppy_files": [
         "answer_files/2016/Autounattend.xml",
@@ -55,7 +55,7 @@
         "./scripts/sdelete.exe",
         "./scripts/bootstrap.ps1",
         "./scripts/unattend.xml",
-        "./scripts/shutdown.bat",
+        "./scripts/sysprep.bat",
         "./scripts/windows-updates.ps1"
       ]
     }

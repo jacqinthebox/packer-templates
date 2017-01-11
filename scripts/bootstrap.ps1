@@ -16,11 +16,16 @@ if(1,3,4,5 -contains (Get-WmiObject win32_computersystem).DomainRole) { return }
 Write-Host "Copy unattend.xml to C:\Windows\Panther\Unattend\"
 New-Item C:\Windows\Panther\Unattend -Type Directory
 New-Item c:\Logs -Type Directory
+New-Item c:\Scripts -Type Directory
 Copy-Item a:\unattend.xml C:\Windows\Panther\Unattend\
-Write-Host "Script to install updates afterwards"
-Copy-Item a:\windows-updates.ps1 c:\Users\vagrant\Desktop\
-Copy-Item a:\shutdown.bat c:\Users\vagrant\Desktop\
-
+Write-Host "Script to install updates afterwards. Copy to desktop, if Core copy to c:\Scripts"
+if (Test-Path "$env:windir\explorer.exe") {
+  Copy-Item a:\windows-updates.ps1 c:\Users\vagrant\Desktop\
+  Copy-Item a:\sysprep.bat c:\Users\vagrant\Desktop\
+  } else {
+  Copy-Item a:\windows-updates.ps1 c:\Scripts\
+  Copy-Item a:\sysprep.bat c:\Scripts\
+}
 
 #"shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
 
