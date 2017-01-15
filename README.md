@@ -22,7 +22,7 @@ Create a Windows 2016 box for VirtualBox:
 ./example_build_vbox_box.sh
 ```
 
-Create a Windows 2016 box for Hyper-V.
+Generate a Vagrant box for Hyper-V from the Virtualbox image. (No Hyper-V installation required!)
 Add [this](https://bintray.com/dwickern/packer-plugins/packer-post-processor-virtualbox-to-hyperv/0.1.0#files) plugin to the packer-templates folder. Create and run this script:
 
 ```bash
