@@ -1,0 +1,50 @@
+{
+  "builders": [
+    {
+      "type": "virtualbox-ovf",
+      "source_path": "./output-win10-updates/win10-updates.pvm",
+      "output_directory": "./output-win10-package/",
+      "vm_name": "win10-package",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ],
+       "guest_additions_mode" : "attach",
+       "headless": true,
+       "communicator": "winrm",
+       "winrm_username": "vagrant",
+       "winrm_password": "vagrant",
+       "winrm_timeout": "12h",
+       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+       "shutdown_timeout": "1h",
+       "communicator": "winrm"
+    }
+  ],
+  "provisioners": [
+    {
+    "type": "powershell",
+    "elevated_user": "vagrant",
+    "elevated_password": "vagrant",
+    "script": "./scripts/tools_and_stuff.ps1"
+    },
+    {
+    "type": "windows-restart",
+    "restart_timeout": "1h"
+    },
+    {
+    "type": "powershell",
+    "elevated_user": "vagrant",
+    "elevated_password": "vagrant",
+    "script": "./scripts/windows-compress.ps1"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows10_vbox.box",
+      "vagrantfile_template": "vagrantfile-windows_10.template"
+    }
+  ]
+}

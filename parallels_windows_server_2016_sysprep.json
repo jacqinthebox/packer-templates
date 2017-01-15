@@ -1,0 +1,38 @@
+{
+  "builders": [
+    {
+      "type": "parallels-pvm",
+      "output_directory": "./output-window2016-sysprep/",
+      "source_path": "./output-windows2016-compress/win2016-base-compress.pvm",
+      "vm_name": "win2016-base-sysprep",
+      "prlctl":[
+        ["set", "{{.Name}}", "--memsize", "2048"],
+        ["set", "{{.Name}}", "--cpus", "1"]
+       ],
+      "parallels_tools_flavor": "win",
+      "parallels_tools_mode" : "attach",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "1h"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/guestadditions.ps1"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows2016_parallels.box",
+      "vagrantfile_template": "vagrantfile-windows-2016.template"
+    }
+    ]
+}
