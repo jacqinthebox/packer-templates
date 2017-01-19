@@ -3,6 +3,7 @@ Stop-Service -Name wuauserv -Force
 Remove-Item c:\Windows\SoftwareDistribution\Download\* -Recurse -Force
 Start-Service -Name wuauserv
 
+<#
 Write-Host "Cleaning SxS on Servers (this always hangs on Windows 10)"
 if ((Get-CIMInstance -ClassName Win32_OperatingSystem).caption -match "2016") {
 #if (([System.Environment]::OSVersion.Version).Major -ne 10) {
@@ -25,7 +26,7 @@ if ((Get-CIMInstance -ClassName Win32_OperatingSystem).caption -match "2016") {
             } catch { $global:error.RemoveAt(0) }
         }
     }
-
+#>
 Write-Host "defragging..."
 if (Get-Command Optimize-Volume -ErrorAction SilentlyContinue) {
     Optimize-Volume -DriveLetter C
