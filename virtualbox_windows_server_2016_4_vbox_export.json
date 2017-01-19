@@ -27,6 +27,6 @@
       "keep_input_artifact": true,
       "output": "windows2016_vbox.box",
       "vagrantfile_template": "vagrantfile-windows-2016.template"
-    },
+    }
   ]
 }
