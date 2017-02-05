@@ -1,7 +1,7 @@
 {
   "builders": [
     {
-      "type": "virtual-iso",
+      "type": "virtualbox-iso",
       "output_directory": "./output-win10-base/",
       "vm_name": "win10-base",
       "vboxmanage": [

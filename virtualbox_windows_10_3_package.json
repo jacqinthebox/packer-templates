@@ -2,7 +2,7 @@
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "source_path": "./output-win10-updates/win10-updates.pvm",
+      "source_path": "./output-win10-updates/win10-updates.ovf",
       "output_directory": "./output-win10-package/",
       "vm_name": "win10-package",
       "vboxmanage": [
