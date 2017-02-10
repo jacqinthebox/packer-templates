@@ -1,6 +1,5 @@
 *~
-output-virtualbox-iso
-output-parallels-iso
+output*
 packer_cachepacker-para*
 packer_cache
 *.box

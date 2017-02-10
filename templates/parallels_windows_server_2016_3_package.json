@@ -13,7 +13,7 @@
        "winrm_username": "vagrant",
        "winrm_password": "vagrant",
        "winrm_timeout": "12h",
-       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+       "shutdown_command": "C:/Scripts/sysprep.cmd",
        "shutdown_timeout": "1h",
        "output_directory": "./output-package/",
        "communicator": "winrm"
@@ -42,7 +42,7 @@
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "windows2016_parallels.box",
-      "vagrantfile_template": "vagrantfile-windows-2016.template"
+      "vagrantfile_template": "./templates/vagrantfile-windows-2016.template"
     }
   ]
 }

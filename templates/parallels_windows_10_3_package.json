@@ -1,23 +1,21 @@
 {
   "builders": [
     {
-      "type": "virtualbox-ovf",
-      "source_path": "./output-win10-updates/win10-updates.ovf",
-      "output_directory": "./output-win10-package/",
-      "vm_name": "win10-package",
-      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
-        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-      ],
-       "guest_additions_mode" : "attach",
-       "headless": true,
+      "type": "parallels-pvm",
+      "parallels_tools_flavor": "win",
+      "source_path": "./output-updates/win10-updates.pvm",
+      "vm_name": "win10",
+      "prlctl":[
+        ["set", "{{.Name}}", "--memsize", "2048"],
+        ["set", "{{.Name}}", "--cpus", "1"]
+       ],
        "communicator": "winrm",
        "winrm_username": "vagrant",
        "winrm_password": "vagrant",
        "winrm_timeout": "12h",
-       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+       "shutdown_command": "C:/Scripts/sysprep.cmd",
        "shutdown_timeout": "1h",
+       "output_directory": "./output-package/",
        "communicator": "winrm"
     }
   ],
@@ -43,8 +41,8 @@
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "windows10_vbox.box",
-      "vagrantfile_template": "vagrantfile-windows_10.template"
+      "output": "windows10_parallels.box",
+      "vagrantfile_template": "./templates/vagrantfile-windows_10.template"
     }
   ]
 }

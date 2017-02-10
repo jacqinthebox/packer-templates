@@ -1,9 +1,9 @@
 # add your customizations here, e.g. install Chocolatey
-
 # Sysprep script until I have a better solution
 Write-Host "Add script to desktop and c:\scripts to perform a sysprep."
 $sysprepCmd = @"
-C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /reboot
+netsh advfirewall firewall set rule name="Open Port 5985" new action=block
+C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown
 "@
 
 Set-Content -path "C:\Scripts\sysprep.cmd" -Value $sysprepCmd
@@ -23,6 +23,13 @@ if (Test-Path "$env:windir\explorer.exe") {
   Set-Content -path "C:\Users\Vagrant\Desktop\extend-trial.cmd" -Value $rearmCmd
 }
 
+#thanks to https://github.com/MattHodge/PackerTemplates!!!
+$setupComplete = @"
+netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
+"@
+
+New-Item -Path 'C:\Windows\Setup\Scripts' -ItemType Directory -Force
+Set-Content -path "C:\Windows\Setup\Scripts\SetupComplete.cmd" -Value $setupComplete
 
 # Installing Guest Additions or Parallels tools
 Write-Host 'Installing Guest Additions or Parallels Tools'
