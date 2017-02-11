@@ -4,6 +4,4 @@ Install-PackageProvider -Name Nuget -Force
 Install-Module PSWindowsUpdate -Force -Confirm:$false
 
 Add-WUServiceManager -ServiceID 7971f918-a847-4430-9279-4a52d1efe18d -Confirm:$false
-#Get-WUInstall -KBArticleID "KB890830" -AcceptAll -IgnoreReboot
 Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot
-#1115

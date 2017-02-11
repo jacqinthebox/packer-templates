@@ -1,8 +1,12 @@
-# add your customizations here, e.g. install Chocolatey
-# Sysprep script until I have a better solution
-Write-Host "Add script to desktop and c:\scripts to perform a sysprep."
+# add your customizations here in this script.
+# e.g. install Chocolatey
+Invoke-Webrequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
+
+# adding a syscrep script to c:\scripts. This will set the winrm service to start manually
+# https://github.com/mwrock/packer-templates/issues/49
+Write-Host "Add sysprep script to c:\scripts to call when Packer performs a shutdown."
 $sysprepCmd = @"
-netsh advfirewall firewall set rule name="Open Port 5985" new action=block
+sc config winrm start=demand
 C:/windows/system32/sysprep/sysprep.exe /generalize /oobe /unattend:C:/Windows/Panther/Unattend/unattend.xml /quiet /shutdown
 "@
 
@@ -11,7 +15,18 @@ if (Test-Path "$env:windir\explorer.exe") {
   Set-Content -path "C:\Users\Vagrant\Desktop\sysprep.cmd" -Value $sysprepCmd
 }
 
-# add a rearm script
+# we need to set the winrm service to auto upon first boot
+# https://technet.microsoft.com/en-us/library/cc766314(v=ws.10).aspx
+$setupComplete = @"
+cmd.exe /c sc config winrm start= auto
+cmd.exe /c net start winrm
+"@
+
+New-Item -Path 'C:\Windows\Setup\Scripts' -ItemType Directory -Force
+Set-Content -path "C:\Windows\Setup\Scripts\SetupComplete.cmd" -Value $setupComplete
+
+
+# rearm script to exend the trial
 Write-Host "Add rearm script to desktop and c:\scripts to extend the trial."
 $rearmCmd = @"
 slmgr -rearm
@@ -23,13 +38,6 @@ if (Test-Path "$env:windir\explorer.exe") {
   Set-Content -path "C:\Users\Vagrant\Desktop\extend-trial.cmd" -Value $rearmCmd
 }
 
-#thanks to https://github.com/MattHodge/PackerTemplates!!!
-$setupComplete = @"
-netsh advfirewall firewall add rule name="WinRM-HTTP" dir=in localport=5985 protocol=TCP action=allow
-"@
-
-New-Item -Path 'C:\Windows\Setup\Scripts' -ItemType Directory -Force
-Set-Content -path "C:\Windows\Setup\Scripts\SetupComplete.cmd" -Value $setupComplete
 
 # Installing Guest Additions or Parallels tools
 Write-Host 'Installing Guest Additions or Parallels Tools'
