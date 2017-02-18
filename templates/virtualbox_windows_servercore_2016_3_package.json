@@ -2,16 +2,16 @@
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "source_path": "./output-win10-updates/win10-updates.ovf",
-      "output_directory": "./output-win10-package/",
-      "vm_name": "win10-package",
+      "source_path": "./output-package/vbox-package.ovf",
+      "output_directory": "./output-export-vbox/",
+      "vm_name": "vbox-package-vagrant",
+      "headless": true,
+      "guest_additions_mode": "disable",
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--vram", "128" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-      ],
-       "guest_additions_mode" : "attach",
-       "headless": true,
+       ],
        "communicator": "winrm",
        "winrm_username": "vagrant",
        "winrm_password": "vagrant",
@@ -43,8 +43,8 @@
     {
       "type": "vagrant",
       "keep_input_artifact": true,
-      "output": "windows10_vbox.box",
-      "vagrantfile_template": "./templates/vagrantfile-windows_10.template"
+      "output": "windows2016core_vbox.box",
+      "vagrantfile_template": "./templates/vagrantfile-windows-2016-core.template"
     }
   ]
 }
