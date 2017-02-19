@@ -2,7 +2,7 @@
   "builders": [
     {
       "type": "virtualbox-ovf",
-      "source_path": "./output-package/vbox-package.ovf",
+      "source_path": "./output-updates/vbox-updates.ovf",
       "output_directory": "./output-export-vbox/",
       "vm_name": "vbox-package-vagrant",
       "headless": true,
