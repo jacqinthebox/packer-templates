@@ -6,12 +6,25 @@
       "output_directory": "./output-export-vbox/",
       "vm_name": "vbox-package-vagrant",
       "headless": true,
-      "guest_additions_mode": "disable",
-      "vboxmanage": [
+       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--vram", "128" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
        ],
+       "guest_additions_mode": "attach",
+      "vboxmanage_post": [
+        [
+          "storageattach",
+          "",
+          "--storagectl",
+          "IDE Controller",
+          "--port",
+          "1",
+          "--device",
+          "0",
+          "--medium",
+          "none"
+        ],
        "communicator": "winrm",
        "winrm_username": "vagrant",
        "winrm_password": "vagrant",
