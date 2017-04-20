@@ -17,8 +17,7 @@
        "winrm_password": "vagrant",
        "winrm_timeout": "12h",
        "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-       "shutdown_timeout": "1h",
-       "communicator": "winrm"
+       "shutdown_timeout": "1h"
     }
   ],
   "provisioners": [

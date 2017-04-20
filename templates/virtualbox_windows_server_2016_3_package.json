@@ -12,20 +12,6 @@
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
        ],
        "guest_additions_mode": "attach",
-      "vboxmanage_post": [
-        [
-          "storageattach",
-          "",
-          "--storagectl",
-          "IDE Controller",
-          "--port",
-          "1",
-          "--device",
-          "0",
-          "--medium",
-          "none"
-        ],
-       "communicator": "winrm",
        "winrm_username": "vagrant",
        "winrm_password": "vagrant",
        "winrm_timeout": "12h",
@@ -57,12 +43,6 @@
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "windows2016_vbox.box",
-      "vagrantfile_template": "./templates/vagrantfile-windows-2016.template"
-    },
-    {
-      "type": "virtualbox-to-hyperv",
-      "keep_input_artifact": true,
-      "output": "windows2016_hyperv.box",
       "vagrantfile_template": "./templates/vagrantfile-windows-2016.template"
     }
   ]
