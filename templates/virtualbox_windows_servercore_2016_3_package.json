@@ -17,8 +17,8 @@
        "winrm_password": "vagrant",
        "winrm_timeout": "12h",
        "shutdown_command": "C:/Scripts/sysprep.cmd",
-       "shutdown_timeout": "1h",
-       "communicator": "winrm"
+       "shutdown_timeout": "1h"
+     
     }
   ],
   "provisioners": [

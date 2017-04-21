@@ -9,7 +9,6 @@
         ["set", "{{.Name}}", "--memsize", "2048"],
         ["set", "{{.Name}}", "--cpus", "1"]
        ],
-       "communicator": "winrm",
        "winrm_username": "vagrant",
        "winrm_password": "vagrant",
        "winrm_timeout": "12h",
