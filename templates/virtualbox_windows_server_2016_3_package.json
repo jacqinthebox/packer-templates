@@ -44,6 +44,12 @@
       "keep_input_artifact": true,
       "output": "windows2016_vbox.box",
       "vagrantfile_template": "./templates/vagrantfile-windows-2016.template"
+    },
+    {
+      "type": "virtualbox-to-hyperv",
+      "keep_input_artifact": true,
+      "output": "windows2016_hyperv.box",
+      "vagrantfile_template": "./templates/vagrantfile-windows-2016.template"
     }
   ]
 }
