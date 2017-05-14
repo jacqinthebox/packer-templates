@@ -14,7 +14,7 @@
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "disksize" : "60000",  		
+      "disk_size" : "60000",  		
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
