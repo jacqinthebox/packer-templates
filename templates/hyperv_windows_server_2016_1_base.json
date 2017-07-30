@@ -1,0 +1,98 @@
+{
+  "builders": [
+    {
+      "type": "hyperv-iso",
+      "vm_name": "vagrant",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "disk_size": "60000",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "ram_size": 4096,
+      "cpu": 1,
+      "generation": 1,
+      "switch_name": "LAN",
+      "floppy_files": [
+        "answer_files/2016/Autounattend.xml",
+        "scripts/oracle-cert.cer",
+        "./scripts/bootstrap.ps1",
+        "./scripts/unattend.xml"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/windows-base.ps1"
+    },
+       {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/windows-updates.ps1"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "inline": [
+        "Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "inline": [
+        "Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/tools_and_stuff.ps1"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/windows-compress.ps1"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": false,
+      "output": "hyperv_server2016.box"
+    }
+  ],
+  "variables": {
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "70721288bbcdfe3239d8f8c0fae55f1f"
+  }
+}
