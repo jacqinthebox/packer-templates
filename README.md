@@ -6,9 +6,11 @@ This repository contains Windows templates that can be used to create boxes for 
 It is inspired by [https://github.com/mwrock/packer-templates](https://github.com/mwrock/packer-templates) and by [https://github.com/MattHodge/PackerTemplates](https://github.com/MattHodge/PackerTemplates).
 I was a bit stuck until I read [https://hodgkins.io/best-practices-with-packer-and-windows](https://hodgkins.io/best-practices-with-packer-and-windows). My previous approach of stuffing all box creating effort in 1 file was very cumbersome. Turns out you can use a modular approach with Packer by creating multiple artifacts and chain them together.
 
+## New! Hyper-V support in packer
+Now you can create Hyper-V boxes on Windows with Hyper-V enabled. Unfortunately the modular approach does not work with Hyper-V. 
+
+
 ## How to
-
-
 ### Prerequisites
 The Windows boxes are created with Packer version 0.12.2 and are using WinRM (no SSH).
 [Vagrant](https://www.vagrantup.com), [Packer](https://www.packer.io) and Virtualbox or Parallels.
@@ -25,11 +27,21 @@ vagrant plugin install vagrant-parallels
 ```
 * You also need the [Parallels Virtualization SDK](http://www.parallels.com/download/pvsdk/).
 
-**Windows:**
+**Windows VirtualBox:**
 You can install the prerequisites with packagemanagement:
 ```Powershell
 Install-Package -ProviderName Chocolatey -ForceBootstrap -Force vagrant,virtualbox,packer
 ```
+
+**Windows Hyper-V (New!):**
+You can install the prerequisites with packagemanagement. 
+And you need to install Hyper-V:
+
+```Powershell
+Install-Package -ProviderName Chocolatey -ForceBootstrap -Force vagrant,packer
+Enable-WindowsOptionalFeature -Online -FeatureName:Microsoft-Hyper-V -All
+```
+
 
 ### Clone and run
 Clone the repository:
@@ -43,12 +55,18 @@ How to create a Parallels Windows 2016 box:
 ./example_build_parallels_windows_2016.sh
 ```
 
-How to create a Windows 2016 box for VirtualBox. This also exports a Hyper-V box.
-For Hyper-V you need to add  [this](https://bintray.com/dwickern/packer-plugins/packer-post-processor-virtualbox-to-hyperv/0.1.0#files) plugin to the packer-templates folder.
+How to create a Windows 2016 box for VirtualBox. 
 
 ```bash
 ./example_build_vbox_windows_2016.sh
 ```
+
+How to create a Hyper-V box on Windows
+
+```Powershell
+.\packer.exe build --force .\templates\hyperv_windows_server_2016_1_base.json
+```
+
 
 ## Adding the box to Vagrant
 
