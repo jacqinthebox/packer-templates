@@ -11,7 +11,7 @@
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "8h",
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_command": "C:/Scripts/sysprep.cmd",
       "shutdown_timeout": "15m",
       "ram_size": 4096,
       "cpu": 1,
