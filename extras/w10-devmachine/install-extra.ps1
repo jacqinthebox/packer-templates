@@ -1,3 +1,4 @@
+Function (Add-Software) {
 param(
 
     [Parameter(Mandatory = $true)]
@@ -45,3 +46,4 @@ if ($installtype -eq  'x-large') {
 }
 
 Set-ExecutionPolicy restricted
+}
