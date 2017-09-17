@@ -6,3 +6,4 @@ packer_cache
 packer*
 .DS_Store
 .vagrant
+templates/parallels_windows_server_2016_4.vagrantcloud.json

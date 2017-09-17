@@ -40,7 +40,6 @@ if ($installtype -eq 'medium' -or 'large' -or 'large') {
 if ($installtype -eq  'large') {
     choco install visualstudio2017professional -force -yes
     choco install sql-server-management-studio -force -yes
-}
+    }
 
-Set-ExecutionPolicy restricted
 }
