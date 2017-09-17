@@ -1,4 +1,5 @@
-Function (Add-Software) {
+Function Add-Software {
+
 param(
 
     [Parameter(Mandatory = $true)]
