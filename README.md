@@ -19,7 +19,7 @@ The Windows boxes are created with Packer version 0.12.2 and are using WinRM (no
 Install them with your package provider.
 
 **MacOS:**
-* You will need [Parallels Desktop 12](https://www.parallels.com/eu/products/desktop/download/). Unfortunately you need the Pro Edition for Vagrant support!
+* You will need [Parallels Desktop 13] Pro(https://www.parallels.com/eu/products/desktop/download/). Unfortunately you need the Pro Edition for Vagrant support!
 * Install with Brew:
 ```bash
 brew cask install vagrant
