@@ -3,7 +3,7 @@ param(
     [Parameter(Mandatory = $true)]
     [ValidateSet('small','medium','large','x-large')]
     [string]$installtype,
-    [Parameter(Mandatory = $true)]
+    [Parameter(Mandatory = $false)]
     [bool]$virtualmachine
 )
 
