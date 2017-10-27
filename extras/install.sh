@@ -53,19 +53,6 @@ rm -rf fonts
 sed -i -e 's/agnoster/robbyrussel/g' ~/.zshrc
 echo "DEFAULT_USER="\""$USER"\""" >> ~/.zshrc
 
-echo "${green} Node.js and npm fix"
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-mkdir ~/npm-global -p
-echo "${green} setting permissions on new npm-global folder for $USER"
-sudo chown -R $USER:$USER ~/npm-global
-npm config set prefix '~/npm-global'
-#Open or create a ~/.profile file and add this line:
-echo "export PATH=~/npm-global/bin:$PATH" >> ~/.profile
-source ~/.profile
-
-
 echo "${green} configuring vim and enabling pathogen"
 mkdir -p ~/.vim/autoload ~/.vim/bundle && curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 cd ~/.vim/bundle
@@ -86,23 +73,10 @@ rm ~/vim-colorschemes -rf
 echo "${green} copying the vimrc"
 wget -O .vimrc http://files.in-the-box.nl/vimrc.txt
 
-
 echo "${green} git user config:"
 git config --global user.name $USER
 git config --global user.email $USER@$HOSTNAME.nl
 
-mkdir ~/code
-
-cd ~/Downloads
-
 echo "${green} to add key to Github:"
 echo "${green} ssh-keygen -t rsa" 
-echo "${green} xclip -sel clip < ~/.ssh/id_rsa.pub"
-
-
-
-
-
-
-
-
+echo "${green} xclip -sel clip < ~/.ssh/id_rsa.pub
