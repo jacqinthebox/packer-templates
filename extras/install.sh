@@ -8,6 +8,7 @@ echo "${green} updating system and installing essential software"
 # install essentials
 sudo apt-get install -y wget curl git gitk vim-nox chromium-browser build-essential linux-headers-$(uname -r) gparted nautilus-dropbox gdebi shutter gnome-tweak-tool
 sudo apt-get install keepass2 -y
+sudo apt-get install libunwind8 -y
 
 # install .net core
 sudo apt-get install -y dotnet-sdk-2.0.2 
