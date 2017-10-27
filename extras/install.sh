@@ -34,7 +34,7 @@ source ~/.profile
 
 # install theme
 sudo apt-get install -y arc-theme
-sudo add-apt-repository ppa:noobslab/icons
+sudo add-apt-repository ppa:noobslab/icons -y
 sudo add-apt-repository ppa:numix/ppa -y
 sudo apt-get update
 sudo apt-get install numix-icon-theme-circle -y
