@@ -33,6 +33,16 @@ npm config set prefix '~/npm-global'
 echo "export PATH=~/npm-global/bin:$PATH" >> ~/.profile
 source ~/.profile
 
+#Docker
+curl -O https://download.docker.com/linux/ubuntu/dists/zesty/pool/stable/amd64/docker-ce_17.09.0\~ce-0\~ubuntu_amd64.deb
+sudo dpkg -i docker-ce_17.09.0\~ce-0\~ubuntu_amd64.deb 
+
+#Fix sudo
+sudo usermod -aG docker $USER
+# Need to logout
+
+
+
 # install theme
 sudo apt-get install -y arc-theme
 sudo add-apt-repository ppa:noobslab/icons -y
