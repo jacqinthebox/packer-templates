@@ -6,7 +6,7 @@
       "output_directory": "./output-updates/",
       "vm_name": "vbox-updates",
       "guest_additions_mode" : "disable",
-      "headless": true, 
+      "headless": false, 
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--vram", "128" ],
