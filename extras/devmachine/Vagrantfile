@@ -3,7 +3,7 @@
 
 $devenv = <<'DEVENV'
 $script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/devmachine/install-extra.ps1')) | Invoke-Expression 
-Add-Software -InstallType small
+Add-Software -InstallVisualStudio $True
 DEVENV
 
 Vagrant.configure(2) do |config|
