@@ -1,7 +1,7 @@
 Function Add-Software {
 
 param(
-    [Parameter(Mandatory = $false)]
+    [Parameter(Mandatory = $True)]
     [bool]$InstallVisualStudio
 )
 
