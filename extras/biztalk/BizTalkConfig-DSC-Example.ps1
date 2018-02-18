@@ -1,27 +1,45 @@
 Configuration BizTalkConfig {
-    Param ( 
-        [string]$NodeName, 
-        [String]$UserName,
-        [string]$ProductVersion
-    )
-
+   
     Import-DscResource -ModuleName PSDesiredStateConfiguration, cChoco
 
-    $OdtUrl = "https://github.com/jacqinthebox/BizTalkAzureVM/raw/master/officedeploymenttool_8311.3600.exe"
-    $ExcelConfigurationUrl = "https://raw.githubusercontent.com/jacqinthebox/BizTalkAzureVM/master/excel.xml"
     $SqlIsoUrl = "https://s3-eu-west-1.amazonaws.com/freeze/SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
     $SqlConfigurationUrl = "https://raw.githubusercontent.com/jacqinthebox/biztalkinstall/master/ConfigurationFile.ini"
-    $BizTalkUrl = http://care.dlservice.microsoft.com/dl/download/6/B/C/6BCBE623-03A5-42AC-95AC-2873B68D10B9/BTS2016Evaluation_EN.iso
+    $BizTalkUrl = "http://care.dlservice.microsoft.com/dl/download/6/B/C/6BCBE623-03A5-42AC-95AC-2873B68D10B9/BTS2016Evaluation_EN.iso"
     $BizTalkCabUrl = "http://go.microsoft.com/fwlink/p/?LinkId=746413"
- 
+    $OdtUrl = "https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_8529.3600.exe"
+
+    $SqlUser = "Vagrant"
+
     $ParametersPath = "C:\Parameters"
     New-Item -ItemType directory -Path $ParametersPath -Force
-    $SqlUser = "$NodeName\$username"
+    New-Item -ItemType directory -Path c:\Install -Force
+    
+    $SqlUser = "$env:computername\$SqlUser"
     Set-Content -path "$ParametersPath\sqluser.txt" -Value $SqlUser
-    Set-Content -path "$ParametersPath\nodename.txt" -Value $NodeName
-    Set-Content -path "$ParametersPath\productversion.txt" -Value $ProductVersion
+    Set-Content -path "$ParametersPath\nodename.txt" -Value $env:computername
+    Set-Content -path "$ParametersPath\odturl.txt" -Value $OdtUrl
+    
+    @("Web-Server",
+        "Web-Http-Errors",
+        "Web-App-Dev",
+        "Web-Asp-Net",
+        "Web-Net-Ext",
+        "Web-ASP",
+        "Web-CGI",
+        "Web-ISAPI-Ext",
+        "Web-ISAPI-Filter",
+        "Web-Includes",
+        "Web-Basic-Auth",
+        "Web-Windows-Auth",
+        "Web-Mgmt-Compat",
+        "Web-Metabase",
+        "Web-WMI",
+        "Web-Lgcy-Scripting",
+        "Web-Lgcy-Mgmt-Console"
+    )| Add-WindowsFeature
+
 	
-    Node $nodeName
+    Node localhost
     {
         LocalConfigurationManager
         {
@@ -69,53 +87,87 @@ Configuration BizTalkConfig {
             TestScript = {
                 Test-Path "C:\Install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
             }
-      
-            GetScript = { 
-                return @{ 'SqlIsoUrl' = "$SqlIsoUrl"}
-            }
-
+               
             SetScript = {
-                $source = $using:SqlIsoUrl
+                $source2 = "https://s3-eu-west-1.amazonaws.com/freeze/ConfigurationFile.ini"
+                $dest2 = "C:\Install\ConfigurationFile.ini"
+                Invoke-WebRequest $source2 -OutFile $dest2
+            
+                $source = "https://s3-eu-west-1.amazonaws.com/freeze/SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
                 $dest = "C:\Install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
                 Invoke-WebRequest $source -OutFile $dest
             }
-        }
-
-        Script DownloadSQLConfiguration
-        {
-            TestScript = {
-                Test-Path "C:\Install\ConfigurationFile.ini"
+               
+            GetScript = { 
+                @{Result = "DownloadSQLIso"}
             }
+        }
+        
      
-            GetScript = { 
-                return @{ 'SqlConfigurationUrl' = "$SqlConfigurationUrl"}
-            }
-
-            SetScript = {
-                $source = $using:SqlConfigurationUrl
-                $dest = "C:\Install\ConfigurationFile.ini"
-                Invoke-WebRequest $source -OutFile $dest
-            }
+    Script PrepareSQLConfiguration {     
+        GetScript = {
+          return @{ 'Result' = "PrepareSQLConfiguration" }
         }
-
-
-        Script DownloadBizTalkCab
-        {
-      
-            GetScript = { 
-                @{'BizTalkCabUrl' = "$BizTalkCabUrl"}
-            }
-      
-            TestScript = {
-                Test-Path "C:\Install\BtsRedistW2K12R2EN64.CAB"
-            }
-		   
-            SetScript = {
-                $source = $using:BizTalkCabUrl
-                $dest = "C:\Install\BtsRedistW2K12R2EN64.CAB"
-                Invoke-WebRequest $source -OutFile $dest
-            }
+   
+        TestScript = {
+          $Result = Test-Path "F:\Install\MyConfigurationFile.ini"
+          return $Result
         }
+   
+        SetScript = {
+          $sqluser = get-content f:\install\sqluser.txt
+          (Get-Content f:\install\configurationfile.ini).replace("[ACCOUNT]", $sqluser  ) | Set-Content f:\install\MyConfigurationFile.ini 
+        }
+      }
+  
+      
+      Script ExpandSQLIso {
+        GetScript ={
+          return @{ 'Result' = "ExpandSQLIso" }
+        }
+        SetScript = {
+          $TempExtractDir = 'F:\Install\SQLInstall'
+          New-Item -ItemType Directory "$TempExtractDir" -Force
+          $7zip = "C:\Program Files\7-Zip"   
+          & $7zip\7z.exe x F:\install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso -of:\install\sqlinstall
+          Set-Location $TempExtractDir
+             
+        } 
+        TestScript = {
+      
+          Test-Path "f:\install\sqlinstall\setup.exe"
+        }
+  
+      }
+  
+  
+      Script InstallSQLServer2016 {     
+        GetScript = {
+          return @{ 'Result' = "InstallSQLServer2016" }
+        }
+   
+        TestScript = {
+          $Result = Test-Path "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn"
+          return $Result
+        }
+   
+        SetScript = {
+             
+          $TempExtractDir = 'F:\install\SQLInstall'
+          Set-Location $TempExtractDir
+          .\Setup.exe /ConfigurationFile="F:\Install\MyConfigurationFile.ini"
+   
+        }
+        DependsOn = "[Script]ExpandSQLIso"
+          
+      }
+  
+      LocalConfigurationManager
+      {
+        RebootNodeIfNeeded = $False
+      } 
+
+
 
         cChocoPackageInstaller installSoapui
         {
@@ -152,9 +204,30 @@ Configuration BizTalkConfig {
             }
 
             SetScript = {
-                $source = $using:ExcelConfiguration
-                $dest = "C:\Install\excel.xml"
-                Invoke-WebRequest $source -OutFile $dest
+                $excel = @"
+                <Configuration>
+                <Add SourcePath="c:\install\odt" OfficeClientEdition="32">
+                <Product ID="O365ProPlusRetail">
+                <Language ID="en-us" />
+                <ExcludeApp ID="Access" />
+                <ExcludeApp ID="Groove" />
+                <ExcludeApp ID="InfoPath" />
+                <ExcludeApp ID="Lync" />
+                <ExcludeApp ID="OneDrive" />
+                <ExcludeApp ID="OneNote" />
+                <ExcludeApp ID="Outlook" />
+                <ExcludeApp ID="PowerPoint" />
+                <ExcludeApp ID="Project" />
+                <ExcludeApp ID="Publisher" />
+                <ExcludeApp ID="SharePointDesigner" />
+                <ExcludeApp ID="Visio" />
+                <ExcludeApp ID="Word" />
+                </Product>
+                </Add>
+                <Display Level="None" AcceptEULA="TRUE" />  
+                </Configuration>
+                "@
+                Set-Content -path "c:\install\excel.xml" -Value $excel  
             }
         }
 
@@ -248,6 +321,29 @@ Configuration BizTalkConfig {
             Message = "Installing BizTalk 2016. Check log in c:\install\BizTalkInstalllog.txt"
         } 
 
+Script DownloadAndExtractBizTalk {
+
+    GetScript = {
+        return @{ 'Result' = "Extract BizTalk" }
+          
+    }
+    TestScript = {
+        $Result = Test-Path "C:\Install\BiztalkInstall"
+        return $Result
+    }
+
+    SetScript = {
+        Invoke-WebRequest -Uri $using:BizTalkUrl -OutFile C:\install\BTS2016Evaluation_EN.iso
+        $TempExtractDir = 'C:\Install\BizTalkInstall'
+        New-Item -ItemType Directory "$TempExtractDir" -Force
+        $7zip = "C:\Program Files\7-Zip"   
+        & $7zip\7z.exe x C:\install\BTS2016Evaluation_EN.iso -oc:\install\biztalkinstall
+        Set-Location $TempExtractDir
+    }
+}
+
+
+
         Script InstallBizTalk {     
             GetScript = {
                 return @{ 'Result' = "InstallBizTalk" }
@@ -272,9 +368,6 @@ Configuration BizTalkConfig {
                 Start-Process -FilePath "$biztalkpath\setup.exe" -argumentlist $argslist -wait -NoNewWindow
             } 
         }
-        Log AllDoneLog
-        {
-            Message = "All Done"
-        } 
+       
     }
 }
