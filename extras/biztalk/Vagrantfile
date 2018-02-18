@@ -7,8 +7,7 @@ Add-Software -InstallVisualStudio $False
 DEVENV
 
 $devenv = <<'BIZTALK'
-$script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/devmachine/install-extra.ps1')) | Invoke-Expression 
-Add-Software -InstallVisualStudio $False
+$script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/biztalk/InstallBizTalk.ps1')) | Invoke-Expression 
 BIZTALK
 
 Vagrant.configure(2) do |config|
