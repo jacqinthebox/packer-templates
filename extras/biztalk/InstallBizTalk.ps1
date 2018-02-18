@@ -1,7 +1,7 @@
 # ugly BizTalk installation script for dev environment on evaluation software
 # assuming Vagrant & Choco
 
-$OdtUrl = "https://github.com/jacqinthebox/BizTalkAzureVM/raw/master/officedeploymenttool_8311.3600.exe"
+$OdtUrl = "https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_8529.3600.exe"
 $SqlIsoUrl = "https://s3-eu-west-1.amazonaws.com/freeze/SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
 $SqlConfigurationUrl = "https://raw.githubusercontent.com/jacqinthebox/biztalkinstall/master/ConfigurationFile.ini"
 $BizTalkUrl = "http://care.dlservice.microsoft.com/dl/download/6/B/C/6BCBE623-03A5-42AC-95AC-2873B68D10B9/BTS2016Evaluation_EN.iso"
@@ -17,8 +17,9 @@ Set-Content -path "$ParametersPath\sqluser.txt" -Value $SqlUser
 Set-Content -path "$ParametersPath\nodename.txt" -Value $env:computername
 Set-Content -path "$ParametersPath\odturl.txt" -Value $OdtUrl
 
+<#
 choco install sql-server-management-studio -force -yes
-choco install visualstudio2015community -force -yes
+choco install visualstudio2015community -force -yes #>
 choco install soapui -force -yes
 
 # Windows Features
@@ -74,9 +75,7 @@ Set-Content -path "c:\install\excel.xml" -Value $excel
 
 
 New-Item -ItemType Directory c:\Install\odt -force
-$Odt = Get-Content 'c:\parameters\odturl.txt'
-Write-Verbose $odt
-Invoke-WebRequest -Uri $Odt -OutFile C:\install\officedeploymenttool.exe
+Invoke-WebRequest $OdtUrl -OutFile C:\install\officedeploymenttool.exe
 Start-Sleep -s 10
 
 set-location c:\install
