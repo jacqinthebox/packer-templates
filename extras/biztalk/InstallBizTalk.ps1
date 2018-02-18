@@ -1,4 +1,5 @@
-#Assuming Choco
+# ugly BizTalk installation script for dev environment on evaluation software
+# assuming Vagrant & Choco
 
 $OdtUrl = "https://github.com/jacqinthebox/BizTalkAzureVM/raw/master/officedeploymenttool_8311.3600.exe"
 $SqlIsoUrl = "https://s3-eu-west-1.amazonaws.com/freeze/SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
@@ -19,6 +20,31 @@ Set-Content -path "$ParametersPath\odturl.txt" -Value $OdtUrl
 choco install sql-server-management-studio -force -yes
 choco install visualstudio2015community -force -yes
 choco install soapui -force -yes
+
+# Windows Features
+@("Web-Server",
+    "Web-Http-Errors",
+    "Web-App-Dev",
+    "Web-Asp-Net",
+    "Web-Net-Ext",
+    "Web-ASP",
+    "Web-CGI",
+    "Web-ISAPI-Ext",
+    "Web-ISAPI-Filter",
+    "Web-Includes",
+    "Web-Basic-Auth",
+    "Web-Windows-Auth",
+    "Web-Mgmt-Compat",
+    "Web-Metabase",
+    "Web-WMI",
+    "Web-Lgcy-Scripting",
+    "Web-Lgcy-Mgmt-Console"
+)| Add-WindowsFeature
+
+
+# DTC
+Install-Dtc
+Set-DtcNetworkSetting -InboundTransactionsEnabled:$True -OutboundTransactionsEnabled:$True -AuthenticationLevel:NoAuth -LUTransactionsEnabled:$True -Confirm:$false
 
 # Excel
 $excel = @"
