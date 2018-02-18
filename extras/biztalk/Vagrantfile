@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$devenv = <<'DEVENV'
+$script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/devmachine/install-extra.ps1')) | Invoke-Expression 
+Add-Software -InstallVisualStudio $False
+DEVENV
+
+Vagrant.configure(2) do |config|
+  config.vm.define "lab01"
+  config.vm.box = "jacqinthebox/windowsserver2016"
+  config.vm.hostname = "lab01"
+  config.vm.communicator = "winrm"
+  config.vm.guest = :windows
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+  config.vm.network "forwarded_port", guest: 3389, host: 13389, auto_correct: true
+  config.vm.network "forwarded_port", guest: 5985, host: 15985, id: "winrm", auto_correct:true
+  #config.vm.network "private_network", ip: "192.168.56.60"
+  
+  config.vm.provider 'parallels' do |prl|
+    prl.linked_clone = true
+  end
+  
+  config.vm.provider "virtualbox" do |v|
+    v.linked_clone = true
+  end
+
+  config.vm.provision :shell, :inline => $devenv
+
+end
