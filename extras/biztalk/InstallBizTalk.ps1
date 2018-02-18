@@ -17,9 +17,9 @@ Set-Content -path "$ParametersPath\sqluser.txt" -Value $SqlUser
 Set-Content -path "$ParametersPath\nodename.txt" -Value $env:computername
 Set-Content -path "$ParametersPath\odturl.txt" -Value $OdtUrl
 
-<#
+
 choco install sql-server-management-studio -force -yes
-choco install visualstudio2015community -force -yes #>
+choco install visualstudio2015community -force -yes
 choco install soapui -force -yes
 
 # Windows Features
