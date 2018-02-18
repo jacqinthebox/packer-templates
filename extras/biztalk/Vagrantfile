@@ -6,6 +6,11 @@ $script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubu
 Add-Software -InstallVisualStudio $False
 DEVENV
 
+$devenv = <<'BIZTALK'
+$script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/jacqinthebox/packer-templates/master/extras/devmachine/install-extra.ps1')) | Invoke-Expression 
+Add-Software -InstallVisualStudio $False
+BIZTALK
+
 Vagrant.configure(2) do |config|
   config.vm.define "lab01"
   config.vm.box = "jacqinthebox/windowsserver2016"
@@ -16,7 +21,6 @@ Vagrant.configure(2) do |config|
   config.winrm.password = "vagrant"
   config.vm.network "forwarded_port", guest: 3389, host: 13389, auto_correct: true
   config.vm.network "forwarded_port", guest: 5985, host: 15985, id: "winrm", auto_correct:true
-  #config.vm.network "private_network", ip: "192.168.56.60"
   
   config.vm.provider 'parallels' do |prl|
     prl.linked_clone = true
@@ -27,5 +31,6 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision :shell, :inline => $devenv
+  config.vm.provision :shell, :inline => $biztalk
 
 end
