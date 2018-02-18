@@ -1,12 +1,8 @@
 Function Add-Software {
 
 param(
-
-    [Parameter(Mandatory = $true)]
-    [ValidateSet('small','medium','large')]
-    [string]$installtype,
     [Parameter(Mandatory = $false)]
-    [bool]$virtualmachine
+    [bool]$InstallVisualStudio
 )
 
 Set-ExecutionPolicy Bypass
@@ -30,16 +26,8 @@ Install-Module Posh-Git -Force
 Install-Module Oh-My-Posh -Force
 Install-Module ISESteroids -Scope CurrentUser -Force
 
-if ($installtype -eq 'medium' -or 'large' -or 'large') {
-    choco install googlechrome -force -yes
-    choco install listary -force -yes
-    choco install keepass -force -yes
-    choco install greenshot -force -yes       
-}
-
-if ($installtype -eq  'large') {
-    choco install visualstudio2017professional -force -yes
+if ( $InstallVisualStudio -eq $True ) {
+    choco install visualstudio2017enterprise  -force -yes
     choco install sql-server-management-studio -force -yes
     }
-
 }
