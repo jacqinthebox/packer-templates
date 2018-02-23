@@ -109,7 +109,6 @@ $7zip = "C:\Program Files\7-Zip"
 Set-Location $TempExtractDir
 Start-Process -FilePath c:\install\sqlinstall\setup.exe -ArgumentList '/ConfigurationFile="C:\Install\MyConfigurationFile.ini"' -Wait -NoNewWindow
 
-
 # BizTalk
 # download
 Invoke-WebRequest -Uri $BizTalkUrl -OutFile C:\install\BTS2016Evaluation_EN.iso

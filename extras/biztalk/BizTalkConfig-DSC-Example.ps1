@@ -1,373 +1,264 @@
+
 Configuration BizTalkConfig {
    
     Import-DscResource -ModuleName PSDesiredStateConfiguration, cChoco
-
+        
     $SqlIsoUrl = "https://s3-eu-west-1.amazonaws.com/freeze/SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
-    $SqlConfigurationUrl = "https://raw.githubusercontent.com/jacqinthebox/biztalkinstall/master/ConfigurationFile.ini"
+    $SqlConfigurationUrl = "https://s3-eu-west-1.amazonaws.com/freeze/ConfigurationFile.ini"
     $BizTalkUrl = "http://care.dlservice.microsoft.com/dl/download/6/B/C/6BCBE623-03A5-42AC-95AC-2873B68D10B9/BTS2016Evaluation_EN.iso"
-    $BizTalkCabUrl = "http://go.microsoft.com/fwlink/p/?LinkId=746413"
     $OdtUrl = "https://download.microsoft.com/download/2/7/A/27AF1BE6-DD20-4CB4-B154-EBAB8A7D4A7E/officedeploymenttool_8529.3600.exe"
-
+        
     $SqlUser = "Vagrant"
-
     $ParametersPath = "C:\Parameters"
     New-Item -ItemType directory -Path $ParametersPath -Force
-    New-Item -ItemType directory -Path c:\Install -Force
-    
+        
+    $excel = @"
+        <Configuration>
+        <Add SourcePath="c:\install\odt" OfficeClientEdition="32">
+        <Product ID="O365ProPlusRetail">
+        <Language ID="en-us" />
+        <ExcludeApp ID="Access" />
+        <ExcludeApp ID="Groove" />
+        <ExcludeApp ID="InfoPath" />
+        <ExcludeApp ID="Lync" />
+        <ExcludeApp ID="OneDrive" />
+        <ExcludeApp ID="OneNote" />
+        <ExcludeApp ID="Outlook" />
+        <ExcludeApp ID="PowerPoint" />
+        <ExcludeApp ID="Project" />
+        <ExcludeApp ID="Publisher" />
+        <ExcludeApp ID="SharePointDesigner" />
+        <ExcludeApp ID="Visio" />
+        <ExcludeApp ID="Word" />
+        </Product>
+        </Add>
+        <Display Level="None" AcceptEULA="TRUE" />  
+        </Configuration>
+  "@
+    Set-Content -path "c:\parameters\excel.xml" -Value $excel  
+        
+        
+            
     $SqlUser = "$env:computername\$SqlUser"
     Set-Content -path "$ParametersPath\sqluser.txt" -Value $SqlUser
     Set-Content -path "$ParametersPath\nodename.txt" -Value $env:computername
     Set-Content -path "$ParametersPath\odturl.txt" -Value $OdtUrl
-    
+            
     @("Web-Server",
-        "Web-Http-Errors",
-        "Web-App-Dev",
-        "Web-Asp-Net",
-        "Web-Net-Ext",
-        "Web-ASP",
-        "Web-CGI",
-        "Web-ISAPI-Ext",
-        "Web-ISAPI-Filter",
-        "Web-Includes",
-        "Web-Basic-Auth",
-        "Web-Windows-Auth",
-        "Web-Mgmt-Compat",
-        "Web-Metabase",
-        "Web-WMI",
-        "Web-Lgcy-Scripting",
-        "Web-Lgcy-Mgmt-Console"
+      "Web-Http-Errors",
+      "Web-App-Dev",
+      "Web-Asp-Net",
+      "Web-Net-Ext",
+      "Web-ASP",
+      "Web-CGI",
+      "Web-ISAPI-Ext",
+      "Web-ISAPI-Filter",
+      "Web-Includes",
+      "Web-Basic-Auth",
+      "Web-Windows-Auth",
+      "Web-Mgmt-Compat",
+      "Web-Metabase",
+      "Web-WMI",
+      "Web-Lgcy-Scripting",
+      "Web-Lgcy-Mgmt-Console"
     )| Add-WindowsFeature
-
-	
+        
+            
     Node localhost
     {
-        LocalConfigurationManager
-        {
-            RebootNodeIfNeeded = $True
-        }
-	 
-        File InstallDir {
-            DestinationPath = "c:\install"
-            Ensure = "present"
-            Type = "Directory"
-        } 
-	  
-        cChocoInstaller installChoco
-        {
-            InstallDir = "c:\choco"
-        }
-   
-        cChocoPackageInstaller notepadplusplus
-        {
-            Name        = "notepadplusplus"
-            DependsOn   = "[cChocoInstaller]installChoco"
-        }
-
-	 
-        cChocoPackageInstaller installSumatra
-        {
-            Name = "sumatrapdf.install"
-            DependsOn = "[cChocoInstaller]installChoco"
-        }
-	
-        cChocoPackageInstaller installSSMS
-        {
-            Name = "install sql-server-management-studio"
-            Ensure = "present"
-            Version = "13.0.15000.23"
-        }
-        cChocoPackageInstaller installVisualStudio
-        {
-            Name = "install visualstudio2015community"
-            Ensure = "present"
-        }
-
-        Script DownloadSQLIso
-        {
-            TestScript = {
-                Test-Path "C:\Install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
-            }
-               
-            SetScript = {
-                $source2 = "https://s3-eu-west-1.amazonaws.com/freeze/ConfigurationFile.ini"
-                $dest2 = "C:\Install\ConfigurationFile.ini"
-                Invoke-WebRequest $source2 -OutFile $dest2
-            
-                $source = "https://s3-eu-west-1.amazonaws.com/freeze/SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
-                $dest = "C:\Install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
-                Invoke-WebRequest $source -OutFile $dest
-            }
-               
-            GetScript = { 
-                @{Result = "DownloadSQLIso"}
-            }
-        }
+      LocalConfigurationManager
+      {
+        RebootNodeIfNeeded = $False
+      }
+             
+      File InstallDir {
+        DestinationPath = "c:\install"
+        Ensure = "present"
+        Type = "Directory"
+      } 
+              
+      cChocoInstaller installChoco
+      {
+        InstallDir = "c:\choco"
+      }
+           
+      cChocoPackageInstaller notepadplusplus
+      {
+        Name        = "notepadplusplus"
+        DependsOn   = "[cChocoInstaller]installChoco"
+      }
         
-     
-    Script PrepareSQLConfiguration {     
+             
+      cChocoPackageInstaller installSumatra
+      {
+        Name = "sumatrapdf.install"
+        DependsOn = "[cChocoInstaller]installChoco"
+      }
+  
+      cChocoPackageInstaller installSoapui
+      {
+        Name = "soapui"
+        DependsOn = "[cChocoInstaller]installChoco"
+      }
+        
+      cChocoPackageInstaller install7zipcommandline
+      {
+        Ensure = 'Present'
+        Name = "7zip.commandline"
+        DependsOn = "[cChocoInstaller]installChoco"
+      }
+        
+      cChocoPackageInstaller install7zipinstall
+      {
+        Name = "7zip.install"
+        DependsOn = "[cChocoInstaller]installChoco"
+      }
+           
+            
+      cChocoPackageInstaller installSSMS
+      {
+        Name = "install sql-server-management-studio"
+        Ensure = "present"
+        Version = "13.0.15000.23"
+      }
+    
+      cChocoPackageInstaller installVisualStudio
+      {
+        Name = "install visualstudio2015community"
+        Ensure = "present"
+      } 
+        
+      Script PrepareSQLConfiguration {     
         GetScript = {
           return @{ 'Result' = "PrepareSQLConfiguration" }
         }
-   
+         
         TestScript = {
-          $Result = Test-Path "F:\Install\MyConfigurationFile.ini"
+          $Result = Test-Path "C:\Install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso"
           return $Result
         }
-   
+         
         SetScript = {
-          $sqluser = get-content f:\install\sqluser.txt
-          (Get-Content f:\install\configurationfile.ini).replace("[ACCOUNT]", $sqluser  ) | Set-Content f:\install\MyConfigurationFile.ini 
+          Invoke-WebRequest -Uri $using:SqlIsoUrl -OutFile C:\install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso
+          Invoke-WebRequest -Uri $using:SqlConfigurationUrl -OutFile C:\install\configurationfile.ini
+          $sqluser = get-content c:\parameters\sqluser.txt
+          (Get-Content c:\install\configurationfile.ini).replace("[ACCOUNT]", $sqluser  ) | Set-Content c:\install\myconfigurationFile.ini 
         }
       }
-  
-      
+        
+            
       Script ExpandSQLIso {
         GetScript ={
           return @{ 'Result' = "ExpandSQLIso" }
         }
         SetScript = {
-          $TempExtractDir = 'F:\Install\SQLInstall'
+          $TempExtractDir = 'c:\Install\SQLInstall'
           New-Item -ItemType Directory "$TempExtractDir" -Force
           $7zip = "C:\Program Files\7-Zip"   
-          & $7zip\7z.exe x F:\install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso -of:\install\sqlinstall
+          & $7zip\7z.exe x c:\install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso -oc:\install\sqlinstall
           Set-Location $TempExtractDir
-             
+                   
         } 
         TestScript = {
-      
-          Test-Path "f:\install\sqlinstall\setup.exe"
+          Test-Path "c:\install\sqlinstall\setup.exe"
         }
-  
+        
       }
-  
-  
+        
+        
       Script InstallSQLServer2016 {     
         GetScript = {
           return @{ 'Result' = "InstallSQLServer2016" }
         }
-   
+         
         TestScript = {
           $Result = Test-Path "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn"
           return $Result
         }
-   
+         
         SetScript = {
-             
-          $TempExtractDir = 'F:\install\SQLInstall'
-          Set-Location $TempExtractDir
-          .\Setup.exe /ConfigurationFile="F:\Install\MyConfigurationFile.ini"
-   
-        }
+          cd c:\install\SQLInstall
+          .\Setup.exe /ConfigurationFile="c:\Install\MyConfigurationFile.ini"
+    }
         DependsOn = "[Script]ExpandSQLIso"
-          
       }
-  
-      LocalConfigurationManager
-      {
-        RebootNodeIfNeeded = $False
-      } 
-
-
-
-        cChocoPackageInstaller installSoapui
-        {
-            Name = "soapui"
-            DependsOn = "[cChocoInstaller]installChoco"
+        
+                
+                 
+      Script InstallOffice2016 {     
+        GetScript = {
+          return @{ 'OdtUrl' = "$OdtUrl" }
         }
-
-        cChocoPackageInstaller install7zipcommandline
-        {
-            Ensure = 'Present'
-            Name = "7zip.commandline"
-            DependsOn = "[cChocoInstaller]installChoco"
+         
+        TestScript = {
+          $Result = Test-Path "C:\Program Files (x86)\Microsoft Office\root\Office16\Excel.exe"
+          return $Result
         }
-
-        cChocoPackageInstaller install7zipinstall
-        {
-            Name = "7zip.install"
-            DependsOn = "[cChocoInstaller]installChoco"
+         
+        SetScript = {
+          New-Item -ItemType Directory c:\Install\odt -force
+          Invoke-WebRequest -Uri $using:OdtUrl -OutFile C:\install\officedeploymenttool.exe
+          Set-Location \install
+          .\officedeploymenttool.exe /quiet /extract:c:\install
+          copy-item C:\Parameters\excel.xml -Destination c:\install
+          $arglist1 = '/download excel.xml'
+          $arglist2 = '/configure excel.xml'
+          Start-Process -FilePath c:\install\setup.exe -ArgumentList $arglist1 -Wait -NoNewWindow
+          Start-Process -FilePath c:\install\setup.exe -ArgumentList $arglist2 -Wait -NoNewWindow
         }
-   
-        Log ExcelinstallLog
-        {
-            Message = "Starting to install Excel."
-        }
-
-        Script DownloadExcelConfiguration
-        {
-            TestScript = {
-                Test-Path "C:\Install\excel.xml"
-            }
-     
-            GetScript = { 
-                return @{ 'ExcelConfigurationUrl' = "$ExcelConfigurationUrl"}
-            }
-
-            SetScript = {
-                $excel = @"
-                <Configuration>
-                <Add SourcePath="c:\install\odt" OfficeClientEdition="32">
-                <Product ID="O365ProPlusRetail">
-                <Language ID="en-us" />
-                <ExcludeApp ID="Access" />
-                <ExcludeApp ID="Groove" />
-                <ExcludeApp ID="InfoPath" />
-                <ExcludeApp ID="Lync" />
-                <ExcludeApp ID="OneDrive" />
-                <ExcludeApp ID="OneNote" />
-                <ExcludeApp ID="Outlook" />
-                <ExcludeApp ID="PowerPoint" />
-                <ExcludeApp ID="Project" />
-                <ExcludeApp ID="Publisher" />
-                <ExcludeApp ID="SharePointDesigner" />
-                <ExcludeApp ID="Visio" />
-                <ExcludeApp ID="Word" />
-                </Product>
-                </Add>
-                <Display Level="None" AcceptEULA="TRUE" />  
-                </Configuration>
-                "@
-                Set-Content -path "c:\install\excel.xml" -Value $excel  
-            }
-        }
-
-        Script InstallOffice2016 {     
-            GetScript = {
-                return @{ 'OdtUrl' = " $OdtUrl" }
-            }
- 
-            TestScript = {
-                $Result = Test-Path "C:\Program Files (x86)\Microsoft Office\root\Office16\Excel.exe"
-                return $Result
-            }
- 
-            SetScript = {
-                New-Item -ItemType Directory c:\Install\odt -force
-		 
-	
-                Invoke-WebRequest -Uri $using:OdtUrl -OutFile C:\install\officedeploymenttool.exe
-                Set-Location \install
-                .\officedeploymenttool.exe /quiet /extract:c:\install
-                $arglist1 = '/download excel.xml'
-                $arglist2 = '/configure excel.xml'
-                Start-Process -FilePath c:\install\setup.exe -ArgumentList $arglist1 -Wait -NoNewWindow
-                Start-Process -FilePath c:\install\setup.exe -ArgumentList $arglist2 -Wait -NoNewWindow
-            }
-            DependsOn = "[Script]DownloadExcelConfiguration" 
-        }
-   
-        Log SQLinstallLog
-        {
-            Message = "Finsihed Excel. Now starting to install SQL Server"
-        }
-
-        Script PrepareSQLConfiguration {     
-            GetScript = {
-                return @{ 'Result' = "PrepareSQLConfiguration" }
-            }
- 
-            TestScript = {
-                $Result = Test-Path "C:\Install\MyConfigurationFile.ini"
-                return $Result
-            }
- 
-            SetScript = {
-                $sqladmin = Get-Content 'c:\sqluser.txt'
-                (Get-Content c:\install\configurationfile.ini).replace("[ACCOUNT]", $sqladmin  ) | Set-Content C:\Install\MyConfigurationFile.ini 
-      
-            }
-        }
-
-        Script ExpandSQLIso {
-            GetScript = {
-    
-                return @{ 'Result' = "ExpandSQLIso" }
-            }
-            SetScript = {
-                $TempExtractDir = 'C:\Install\SQLInstall'
-                New-Item -ItemType Directory "$TempExtractDir" -Force
-                $7zip = "C:\Program Files\7-Zip"   
-                & $7zip\7z.exe x C:\install\SQLServer2016SP1-FullSlipstream-x64-ENU.iso -oc:\install\sqlinstall
-                Set-Location $TempExtractDir
+      }
            
-            } 
-            TestScript = {
-    
-                Test-Path "c:\install\sqlinstall\setup.exe"
-            }
-            DependsOn = "[script]PrepareSQLConfiguration"
+                
+                
+      Script DownloadAndExtractBizTalk {
+        
+        GetScript = {
+          return @{ 'Result' = "Extract BizTalk" }
+                  
         }
-
-        Script InstallSQLServer2016 {     
-            GetScript = {
-                return @{ 'Result' = "InstallSQLServer2016" }
-            }
- 
-            TestScript = {
-                $Result = Test-Path "C:\Program Files\Microsoft SQL Server\MSSQL13.MSSQLSERVER\MSSQL\Binn"
-                return $Result
-            }
- 
-            SetScript = {
-           
-                Start-Process -FilePath c:\install\sqlinstall\setup.exe -ArgumentList '/ConfigurationFile="C:\Install\MyConfigurationFile.ini"' -Wait -NoNewWindow
- 
-            }
-            DependsOn = "[Script]ExpandSQLIso"
+        TestScript = {
+          $Result = Test-Path "C:\Install\BizTalkInstall\BizTalk Server\Setup.exe"
+          return $Result
         }
-  
-        Log StartBizTalkInstallLog
-        {
-            Message = "Installing BizTalk 2016. Check log in c:\install\BizTalkInstalllog.txt"
-        } 
-
-Script DownloadAndExtractBizTalk {
-
-    GetScript = {
-        return @{ 'Result' = "Extract BizTalk" }
-          
-    }
-    TestScript = {
-        $Result = Test-Path "C:\Install\BiztalkInstall"
-        return $Result
-    }
-
-    SetScript = {
-        Invoke-WebRequest -Uri $using:BizTalkUrl -OutFile C:\install\BTS2016Evaluation_EN.iso
-        $TempExtractDir = 'C:\Install\BizTalkInstall'
-        New-Item -ItemType Directory "$TempExtractDir" -Force
-        $7zip = "C:\Program Files\7-Zip"   
-        & $7zip\7z.exe x C:\install\BTS2016Evaluation_EN.iso -oc:\install\biztalkinstall
-        Set-Location $TempExtractDir
-    }
-}
-
-
-
-        Script InstallBizTalk {     
-            GetScript = {
-                return @{ 'Result' = "InstallBizTalk" }
-            }
- 
-            TestScript = {
-                Write-Verbose 'Testing Install of BizTalk Server 2016'
-                $Result = Test-Path "C:\Program Files (x86)\Microsoft BizTalk Server 2016\Configuration.exe"
-                If ($Result) { Write-Verbose "BizTalk already installed." } else { Write-Verbose "Not in desired state. Installing BizTalk." }
-                Return $Result
-            }
- 
-            SetScript = {
-                Write-Verbose 'Installing BizTalk Server 2016'
-                #some ugly code ensues here. 
-                $biztalkpath = 'C:\BizTalk Server 2016 Developer\BizTalk Server' 
-      
-                set-location $biztalkpath
-                $argslist = @"
-/quiet /CABPATH "C:\Install\BtsRedistW2K12R2EN64.CAB" /addlocal all /COMPANYNAME 'BizTalkLab' /USERNAME 'BizTalkUser' /L c:\install\BizTalkInstallLog.txt
-"@
-                Start-Process -FilePath "$biztalkpath\setup.exe" -argumentlist $argslist -wait -NoNewWindow
-            } 
+        
+        SetScript = {
+          Invoke-WebRequest -Uri $using:BizTalkUrl -OutFile C:\install\BTS2016Evaluation_EN.iso
+          $TempExtractDir = 'C:\Install\BizTalkInstall'
+          New-Item -ItemType Directory "$TempExtractDir" -Force
+          $7zip = "C:\Program Files\7-Zip"   
+          & $7zip\7z.exe x C:\install\BTS2016Evaluation_EN.iso -oc:\install\biztalkinstall
+          Set-Location $TempExtractDir
         }
-       
+        
+      }
+        
+        
+        
+      Script InstallBizTalk {     
+        GetScript = {
+          return @{ 'Result' = "InstallBizTalk" }
+        }
+         
+        TestScript = {
+          Write-Verbose 'Testing Install of BizTalk Server 2016'
+          $Result = Test-Path "C:\Program Files (x86)\Microsoft BizTalk Server 2016\Configuration.exe"
+          If ($Result) { Write-Verbose "BizTalk already installed." } else { Write-Verbose "Not in desired state. Installing BizTalk." }
+          Return $Result
+        }
+         
+        SetScript = {
+  Write-Verbose 'Installing BizTalk Server 2016'
+          #some ugly code ensues here. 
+          $biztalkpath = 'C:\Install\BizTalkInstall\BizTalk Server' 
+              
+          set-location $biztalkpath
+          $argslist = @"
+        /quiet /addlocal all /COMPANYNAME 'BizTalkLab' /USERNAME 'BizTalkUser' /L c:\install\BizTalkInstallLog.txt
+  "@
+          Start-Process -FilePath "C:\Install\BizTalkInstall\BizTalk Server\Setup.exe" -argumentlist $argslist -wait -NoNewWindow
+        }
+        DependsOn = "[Script]DownloadAndExtractBizTalk" 
+      }
+               
     }
-}
+  }
