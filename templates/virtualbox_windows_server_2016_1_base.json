@@ -4,17 +4,32 @@
       "type": "virtualbox-iso",
       "output_directory": "./output-base/",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
-        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "128"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
       ],
-      "vm_name" : "vbox-base",
+      "vm_name": "vbox-base",
       "guest_additions_mode": "disable",
       "guest_os_type": "Windows2012_64",
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
-      "disk_size" : "60000",
+      "disk_size": "60000",
       "headless": true,
       "communicator": "winrm",
       "winrm_username": "vagrant",
@@ -29,18 +44,18 @@
         "./scripts/unattend.xml"
       ]
     }
-   ],
-    "provisioners" : [
-      {
-        "type": "powershell",
-        "elevated_user": "vagrant",
-        "elevated_password": "vagrant",
-        "script": "./scripts/windows-base.ps1"
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/windows-base.ps1"
     }
   ],
   "variables": {
-     "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
-     "iso_checksum_type": "md5",
-     "iso_checksum": "70721288bbcdfe3239d8f8c0fae55f1f"
-     }
+    "iso_url": "https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
+    "iso_checksum_type": "md5",
+    "iso_checksum": "70721288bbcdfe3239d8f8c0fae55f1f"
+  }
 }

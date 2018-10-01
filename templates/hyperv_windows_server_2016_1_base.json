@@ -16,7 +16,7 @@
       "ram_size": 4096,
       "cpu": 1,
       "generation": 1,
-      "switch_name": "LAN",
+      "switch_name": "Default Switch",
       "floppy_files": [
         "answer_files/2016/Autounattend.xml",
         "scripts/oracle-cert.cer",
@@ -32,7 +32,7 @@
       "elevated_password": "vagrant",
       "script": "./scripts/windows-base.ps1"
     },
-       {
+    {
       "type": "powershell",
       "elevated_user": "vagrant",
       "elevated_password": "vagrant",
@@ -91,7 +91,7 @@
     }
   ],
   "variables": {
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/1/4/9/149D5452-9B29-4274-B6B3-5361DBDA30BC/14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO",
+    "iso_url": "https://software-download.microsoft.com/download/pr/Windows_Server_2016_Datacenter_EVAL_en-us_14393_refresh.ISO",
     "iso_checksum_type": "md5",
     "iso_checksum": "70721288bbcdfe3239d8f8c0fae55f1f"
   }
