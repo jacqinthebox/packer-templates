@@ -39,7 +39,7 @@
     }
   ],
   "variables": {
-    "iso_url": "http://download.microsoft.com/download/1/B/F/1BFE5194-5951-452C-B62C-B2F667F9B86D/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISE_S_EVAL_X64FRE_EN-US.ISO"
+    "iso_url": "http://download.microsoft.com/download/1/B/F/1BFE5194-5951-452C-B62C-B2F667F9B86D/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISE_S_EVAL_X64FRE_EN-US.ISO",
     "iso_checksum_type": "md5",
     "iso_checksum": "4d4828cb40554278d376f86cbaed0e03",
     "autounattend": "./answer_files/10/Autounattend.xml"
