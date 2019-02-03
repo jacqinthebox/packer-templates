@@ -1,0 +1,58 @@
+{
+  "builders": [
+    {
+      "type": "parallels-iso",
+      "output_directory": "./output-base/",
+      "vm_name": "win2019-base",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "4096"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "parallels_tools_flavor": "win",
+      "parallels_tools_mode": "attach",
+      "guest_os_type": "win-10",
+      "iso_url": "{{ user `iso_url` }}",
+      "iso_checksum_type": "{{user `iso_checksum_type`}}",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "disk_size": "60000",
+      "communicator": "winrm",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "floppy_files": [
+        "answer_files/2019/Autounattend.xml",
+        "./scripts/bootstrap.ps1",
+        "./scripts/oracle-cert.cer",
+        "./scripts/unattend.xml",
+        "./scripts/disable-screensaver.ps1",
+        "./scripts/microsoft-updates.bat",
+        "./scripts/windows-updates.ps1"
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/windows-base.ps1"
+    }
+  ],
+  "variables": {
+    "iso_checksum": "57FAF4A2EA4484CFDF5E964C539313C061C4D9CAC474E723D60405F2EA02D570",
+    "iso_checksum_type": "sha256",
+    "iso_url": "https://software-download.microsoft.com/download/sg/17763.253.190108-0006.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso"
+  }
+}

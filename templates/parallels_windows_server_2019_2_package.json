@@ -1,0 +1,57 @@
+{
+  "builders": [
+    {
+      "type": "parallels-pvm",
+      "parallels_tools_flavor": "win",
+      "source_path": "./output-base/win2019-base.pvm",
+      "vm_name": "win2019",
+      "prlctl": [
+        [
+          "set",
+          "{{.Name}}",
+          "--memsize",
+          "4096"
+        ],
+        [
+          "set",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "12h",
+      "shutdown_command": "c:/scripts/sysprep.cmd",
+      "shutdown_timeout": "1h",
+      "output_directory": "./output-package/",
+      "communicator": "winrm"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/tools_and_stuff.ps1"
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "script": "./scripts/windows-compress.ps1"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "windows2019_parallels.box",
+      "vagrantfile_template": "./templates/vagrantfile-windows-2019.template"
+    }
+  ]
+}
