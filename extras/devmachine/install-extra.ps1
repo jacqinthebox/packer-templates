@@ -6,7 +6,9 @@ $software = @(
     'git',
     'conemu',
     'googlechrome',
-    'notepadplusplus'
+    'notepadplusplus',
+    'az-cli',
+    'terraform'
 )
 
 
