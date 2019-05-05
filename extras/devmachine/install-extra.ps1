@@ -9,7 +9,8 @@ $software = @(
     'googlechrome',
     'notepadplusplus',
     'az-cli',
-    'terraform'
+    'terraform',
+    'kubernetes-helm'
 )
 
 
