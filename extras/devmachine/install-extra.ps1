@@ -10,7 +10,12 @@ $software = @(
     'notepadplusplus',
     'az-cli',
     'terraform',
-    'kubernetes-helm'
+    'kubernetes-helm',
+    'kubernetes-cli',
+    'firefox',
+    'winscp',
+    'putty',
+    'sql-server-management-studio'
 )
 
 
