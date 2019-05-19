@@ -10,3 +10,5 @@ curl -L https://git.io/get_helm.sh | bash
 
 source <(kubectl completion bash) # setup autocomplete in bash into the current shell, bash-completion package should be installed first.
 echo "source <(kubectl completion bash)" >> ~/.bashrc # add autocomplete permanently to your bash shell.
+
+cd $HOME && printf '"# Fix the use of keyboard arrows in vim. \n:set term=builtin_ansi' >> .vimrc
