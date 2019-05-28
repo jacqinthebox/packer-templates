@@ -15,7 +15,7 @@ $software = @(
     'firefox',
     'winscp',
     'putty',
-    'sql-server-management-studio'
+    'sql-operations-studio'
 )
 
 
