@@ -9,14 +9,18 @@ I was a bit stuck until I read [https://hodgkins.io/best-practices-with-packer-a
 ## New! Hyper-V support in packer
 Now you can create Hyper-V boxes on Windows with Hyper-V enabled. Unfortunately the modular approach does not work with Hyper-V. 
 
-
 ## How to
 ### Prerequisites
 The Windows boxes are created with Packer version 0.12.2 and are using WinRM (no SSH).
 [Vagrant](https://www.vagrantup.com), [Packer](https://www.packer.io) and Virtualbox or Parallels.
 
 **Linux:**
-Install them with your package provider.
+Install them with your package provider or manually, for example like so:
+
+```bash
+unzip packer_1.5.1_linux_amd64.zip
+sudo mv packer /usr/local/bin
+```
 
 **MacOS:**
 * You will need [Parallels Desktop 13] Pro(https://www.parallels.com/eu/products/desktop/download/). Unfortunately you need the Pro Edition for Vagrant support!
