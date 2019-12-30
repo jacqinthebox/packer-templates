@@ -33,20 +33,37 @@ Install-Package -ProviderName Chocolatey -ForceBootstrap -Force vagrant,virtualb
 
 
 ### Clone and run
+
 Clone the repository:
 ```
 git clone https://github.com/jacqinthebox/packer-templates.git; cd packer-templates
 ```
 
-Create a Windows 10 box
+### Create a box
+
+Create a Windows 10 box:   
+
 ```bash
 packer build --force virtualbox_windows_10_1_base.json
 packer build --force virtualbox_windows_10_2_updates.json
 packer build --force virtualbox_windows_10_3_package.json
 ```
 
-## Adding the box to Vagrant
+Create a Windows Server 2019 box:   
+
+```bash
+packer build --force virtualbox_windows_server_2019_1_base.json
+packer build --force virtualbox_windows_server_2019_2_updates.json
+packer build --force virtualbox_windows_server_2019_3_package.json
+```
+
+### Adding the box to Vagrant
 
 ```bash
 vagrant box add --name windows_10 windows10_vbox.box
 ```
+
+
+## Or just fetch the boxes from Vagrant cloud
+
+[https://app.vagrantup.com/boxes/search?order=desc&page=1&provider=&q=jacqinthebox](https://app.vagrantup.com/boxes/search?order=desc&page=1&provider=&q=jacqinthebox)
