@@ -6,7 +6,7 @@
       "output_directory": "./output-updates/",
       "vm_name": "vbox-updates",
       "guest_additions_mode" : "disable",
-      "headless": false, 
+      "headless": true, 
       "vboxmanage": [
         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
         [ "modifyvm", "{{.Name}}", "--vram", "128" ],
@@ -28,28 +28,36 @@
       "script": "./scripts/windows-updates.ps1"
     },
     {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
-    },
-    {
       "type": "powershell",
       "elevated_user": "vagrant",
       "elevated_password": "vagrant",
-      "inline": ["Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot"]
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
-    },
-    {
-      "type": "powershell",
-      "elevated_user": "vagrant",
-      "elevated_password": "vagrant",
-      "inline": ["Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot"]
+      "inline": ["Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"]
     },
     {
     "type": "windows-restart",
     "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "inline": ["Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "inline": [
+        "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
     }
   ]
 }

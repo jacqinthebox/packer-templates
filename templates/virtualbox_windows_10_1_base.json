@@ -12,7 +12,7 @@
       ],
       "guest_additions_mode" : "disable",
       "headless": true,
-      "guest_os_type": "Windows81_64",
+      "guest_os_type": "Windows10_64",
       "iso_url": "{{ user `iso_url` }}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_checksum`}}",
