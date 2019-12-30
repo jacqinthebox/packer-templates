@@ -1,4 +1,4 @@
-# Templates for Packer (Virtualbox, Parallels and Hyper-V support)
+# Windows templates for Packer 
 
 ## Introduction
 This repository contains Windows templates that can be used to create boxes for Vagrant using Packer.
