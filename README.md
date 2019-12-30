@@ -57,13 +57,35 @@ packer build --force virtualbox_windows_server_2019_2_updates.json
 packer build --force virtualbox_windows_server_2019_3_package.json
 ```
 
-### Adding the box to Vagrant
+### Add the box to Vagrant
 
 ```bash
 vagrant box add --name windows_10 windows10_vbox.box
 ```
 
 
-## Or just fetch the boxes from Vagrant cloud
+## Or just use the boxes from the Vagrant cloud
+
+Create a Vagrantfile
+
+```ruby
+Vagrant.configure("2") do |config|
+  config.vm.define "lab01" do |lab01_config|
+    lab01_config.vm.box = "jacqinthebox/windows10"
+    lab01_config.vm.hostname ="lab01"
+    
+    lab01_config.vm.provider "virtualbox" do |v|
+      v.linked_clone = true
+    end
+  end
+end
+```
+And do
+
+```sh
+vagrant up
+```
+
+This may take a while because the boxes are around 6 Gigabytes.
 
 [https://app.vagrantup.com/boxes/search?order=desc&page=1&provider=&q=jacqinthebox](https://app.vagrantup.com/boxes/search?order=desc&page=1&provider=&q=jacqinthebox)
