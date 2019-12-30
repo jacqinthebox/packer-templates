@@ -24,7 +24,6 @@ cmd.exe /c net start winrm
 New-Item -Path 'C:\Windows\Setup\Scripts' -ItemType Directory -Force
 Set-Content -path "C:\Windows\Setup\Scripts\SetupComplete.cmd" -Value $SetupComplete
 
-
 # rearm script to exend the trial
 Write-Host "Add rearm script to desktop and c:\scripts to extend the trial."
 $rearmCmd = @"
@@ -37,9 +36,9 @@ if (Test-Path "$env:windir\explorer.exe") {
   Set-Content -path "C:\Users\Vagrant\Desktop\extend-trial.cmd" -Value $RearmCmd
 }
 
-
 # Installing Guest Additions or Parallels tools
 Write-Host 'Installing Guest Additions or Parallels Tools'
+
 if (Test-Path d:\VBoxWindowsAdditions.exe) {
   Write-Host "Mounting Drive with VBoxWindowsAdditions"
   & d:\VBoxWindowsAdditions.exe /S

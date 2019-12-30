@@ -4,8 +4,8 @@
 Vagrant.require_version ">= 1.6.2"
 
 Vagrant.configure("2") do |config|
-    config.vm.define "vagrant-windows-10-ltsb"
-    config.vm.box = "windows_10_ltsb"
+    config.vm.define "vagrant-windows-10-ltsc"
+    config.vm.box = "windows_10_ltsc"
     config.vm.communicator = "winrm"
 
     # Admin user name and password
@@ -14,13 +14,12 @@ Vagrant.configure("2") do |config|
     config.vm.guest = :windows
     config.windows.halt_timeout = 15
 
-
     config.vm.provider :virtualbox do |v, override|
         v.gui = true
-        v.customize ["modifyvm", :id, "--memory", 2048]
+        v.customize ["modifyvm", :id, "--memory", 4092]
         v.customize ["modifyvm", :id, "--cpus", 1]
         v.customize ["modifyvm", :id, "--vram", 128]
         v.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
+        v.customize ["modifyvm", :id, "--vrde", "off"]
     end
-
-  end
+end

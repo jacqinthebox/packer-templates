@@ -19,7 +19,7 @@
       "switch_name": "Default Switch",
       "floppy_files": [
         "answer_files/2016/Autounattend.xml",
-        "scripts/oracle-cert.cer",
+        "scripts/oracle.cer",
         "./scripts/bootstrap.ps1",
         "./scripts/unattend.xml"
       ]

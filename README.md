@@ -6,12 +6,9 @@ This repository contains Windows templates that can be used to create boxes for 
 It is inspired by [https://github.com/mwrock/packer-templates](https://github.com/mwrock/packer-templates) and by [https://github.com/MattHodge/PackerTemplates](https://github.com/MattHodge/PackerTemplates).
 I was a bit stuck until I read [https://hodgkins.io/best-practices-with-packer-and-windows](https://hodgkins.io/best-practices-with-packer-and-windows). My previous approach of stuffing all box creating effort in 1 file was very cumbersome. Turns out you can use a modular approach with Packer by creating multiple artifacts and chain them together.
 
-## New! Hyper-V support in packer
-Now you can create Hyper-V boxes on Windows with Hyper-V enabled. Unfortunately the modular approach does not work with Hyper-V. 
-
 ## How to
 ### Prerequisites
-The Windows boxes are created with Packer version 0.12.2 and are using WinRM (no SSH).
+The Windows boxes are created with Packer version 1.5.1 and are using WinRM (no SSH).
 [Vagrant](https://www.vagrantup.com), [Packer](https://www.packer.io) and Virtualbox or Parallels.
 
 **Linux:**

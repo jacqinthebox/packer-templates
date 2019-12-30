@@ -10,8 +10,9 @@ New-Item c:\Logs -Type Directory
 New-Item c:\Scripts -Type Directory
 Copy-Item a:\unattend.xml C:\Windows\Panther\Unattend\
 
-Copy-Item a:\oracle-cert.cer c:\Scripts
-certutil -addstore -f "TrustedPublisher" c:\Scripts\oracle-cert.cer
+Write-Host "Copy Oracle root certificate and add to trusted publishers (for guest additions installation)"
+Copy-Item a:\oracle.cer c:\Scripts
+certutil -addstore -f "TrustedPublisher" c:\Scripts\oracle.cer
 
 # Get network connections
 $networkListManager = [Activator]::CreateInstance([Type]::GetTypeFromCLSID([Guid]'{DCB00C01-570F-4A9B-8D69-199FDBA5723B}'))

@@ -25,7 +25,7 @@
       "floppy_files": [
         "answer_files/10/Autounattend.xml",
         "./scripts/bootstrap.ps1",
-        "./scripts/oracle-cert.cer",
+        "./scripts/oracle.cer",
         "./scripts/unattend.xml"
       ]
     }

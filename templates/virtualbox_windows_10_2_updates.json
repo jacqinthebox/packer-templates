@@ -26,7 +26,7 @@
         ]
       ],
       "guest_additions_mode": "disable",
-      "headless": true,
+      "headless": false,
       "communicator": "winrm",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -51,7 +51,7 @@
       "elevated_user": "vagrant",
       "elevated_password": "vagrant",
       "inline": [
-        "Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot"
+        "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
       ]
     },
     {
@@ -63,7 +63,19 @@
       "elevated_user": "vagrant",
       "elevated_password": "vagrant",
       "inline": [
-        "Get-WUInstall -MicrosoftUpdate -AcceptAll -IgnoreReboot"
+        "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
+      ]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "1h"
+    },
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "inline": [
+        "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
       ]
     },
     {

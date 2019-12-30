@@ -10,7 +10,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "2048"
+          "4096"
         ],
         [
           "modifyvm",
@@ -32,7 +32,10 @@
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
       "shutdown_command": "C:/Scripts/sysprep.cmd",
-      "shutdown_timeout": "1h"
+      "shutdown_timeout": "1h",
+      "floppy_files": [
+        "./scripts/oracle.cer"
+      ]
     }
   ],
   "provisioners": [

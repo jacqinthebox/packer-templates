@@ -70,12 +70,12 @@
         <component xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
             <SetupUILanguage>
                 <UILanguage>en-US</UILanguage>
-                </SetupUILanguage>
-                <InputLocale>0409:00000409</InputLocale>
-                <SystemLocale>en-US</SystemLocale>
-                <UILanguage>en-US</UILanguage>
-                <UILanguageFallback>en-US</UILanguageFallback>
-                <UserLocale>en-US</UserLocale>
+            </SetupUILanguage>
+            <InputLocale>0409:00000409</InputLocale>
+            <SystemLocale>en-US</SystemLocale>
+            <UILanguage>en-US</UILanguage>
+            <UILanguageFallback>en-US</UILanguageFallback>
+            <UserLocale>en-US</UserLocale>
         </component>
     </settings>
     <settings pass="offlineServicing">
@@ -168,7 +168,7 @@
                     <Order>8</Order>
                     <Description>Disable password expiration for vagrant user</Description>
                 </SynchronousCommand>
-                   <SynchronousCommand wcm:action="add">
+                <SynchronousCommand wcm:action="add">
                     <CommandLine>cmd.exe /c C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File a:\bootstrap.ps1</CommandLine>
                     <Description>Fix public network and enable WinRM</Description>
                     <Order>9</Order>

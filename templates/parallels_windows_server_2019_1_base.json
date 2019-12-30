@@ -37,7 +37,6 @@
         "./scripts/oracle-cert.cer",
         "./scripts/unattend.xml",
         "./scripts/disable-screensaver.ps1",
-        "./scripts/microsoft-updates.bat",
         "./scripts/windows-updates.ps1"
       ]
     }
