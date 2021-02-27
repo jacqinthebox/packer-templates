@@ -1,10 +1,14 @@
 {
   "builders": [
     {
-      "type": "virtualbox-ovf",
-      "source_path": "./output-win10-base/win10-base.ovf",
+      "communicator": "winrm",
+      "guest_additions_mode": "disable",
+      "headless": false,
       "output_directory": "./output-win10-updates/",
-      "vm_name": "win10-updates",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "1h",
+      "source_path": "./output-win10-base/win10-base.ovf",
+      "type": "virtualbox-ovf",
       "vboxmanage": [
         [
           "modifyvm",
@@ -25,62 +29,59 @@
           "1"
         ]
       ],
-      "guest_additions_mode": "disable",
-      "headless": false,
-      "communicator": "winrm",
-      "winrm_username": "vagrant",
+      "vm_name": "win10-updates",
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "1h"
+      "winrm_username": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "type": "powershell",
-      "elevated_user": "vagrant",
       "elevated_password": "vagrant",
-      "script": "./scripts/windows-updates.ps1"
+      "elevated_user": "vagrant",
+      "script": "./scripts/windows-updates.ps1",
+      "type": "powershell"
     },
     {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
+      "restart_timeout": "1h",
+      "type": "windows-restart"
     },
     {
-      "type": "powershell",
-      "elevated_user": "vagrant",
       "elevated_password": "vagrant",
+      "elevated_user": "vagrant",
       "inline": [
         "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
-      ]
+      ],
+      "type": "powershell"
     },
     {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
+      "restart_timeout": "1h",
+      "type": "windows-restart"
     },
     {
-      "type": "powershell",
-      "elevated_user": "vagrant",
       "elevated_password": "vagrant",
+      "elevated_user": "vagrant",
       "inline": [
         "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
-      ]
+      ],
+      "type": "powershell"
     },
     {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
+      "restart_timeout": "1h",
+      "type": "windows-restart"
     },
     {
-      "type": "powershell",
-      "elevated_user": "vagrant",
       "elevated_password": "vagrant",
+      "elevated_user": "vagrant",
       "inline": [
         "Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -IgnoreReboot"
-      ]
+      ],
+      "type": "powershell"
     },
     {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
+      "restart_timeout": "1h",
+      "type": "windows-restart"
     }
   ]
 }
+

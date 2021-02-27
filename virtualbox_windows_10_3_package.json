@@ -1,10 +1,17 @@
 {
   "builders": [
     {
-      "type": "virtualbox-ovf",
-      "source_path": "./output-win10-updates/win10-updates.ovf",
+      "communicator": "winrm",
+      "floppy_files": [
+        "./scripts/oracle.cer"
+      ],
+      "guest_additions_mode": "attach",
+      "headless": true,
       "output_directory": "./output-win10-package/",
-      "vm_name": "win10-package",
+      "shutdown_command": "C:/Scripts/sysprep.cmd",
+      "shutdown_timeout": "1h",
+      "source_path": "./output-win10-updates/win10-updates.ovf",
+      "type": "virtualbox-ovf",
       "vboxmanage": [
         [
           "modifyvm",
@@ -25,43 +32,37 @@
           "1"
         ]
       ],
-      "guest_additions_mode": "attach",
-      "headless": true,
-      "communicator": "winrm",
-      "winrm_username": "vagrant",
+      "vm_name": "win10-package",
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
-      "shutdown_command": "C:/Scripts/sysprep.cmd",
-      "shutdown_timeout": "1h",
-      "floppy_files": [
-        "./scripts/oracle.cer"
-      ]
-    }
-  ],
-  "provisioners": [
-    {
-      "type": "powershell",
-      "elevated_user": "vagrant",
-      "elevated_password": "vagrant",
-      "script": "./scripts/tools_and_stuff.ps1"
-    },
-    {
-      "type": "windows-restart",
-      "restart_timeout": "1h"
-    },
-    {
-      "type": "powershell",
-      "elevated_user": "vagrant",
-      "elevated_password": "vagrant",
-      "script": "./scripts/windows-compress.ps1"
+      "winrm_username": "vagrant"
     }
   ],
   "post-processors": [
     {
-      "type": "vagrant",
       "keep_input_artifact": true,
       "output": "windows10_vbox.box",
+      "type": "vagrant",
       "vagrantfile_template": "./templates/vagrantfile-windows_10.template"
+    }
+  ],
+  "provisioners": [
+    {
+      "elevated_password": "vagrant",
+      "elevated_user": "vagrant",
+      "script": "./scripts/tools_and_stuff.ps1",
+      "type": "powershell"
+    },
+    {
+      "restart_timeout": "1h",
+      "type": "windows-restart"
+    },
+    {
+      "elevated_password": "vagrant",
+      "elevated_user": "vagrant",
+      "script": "./scripts/windows-compress.ps1",
+      "type": "powershell"
     }
   ]
 }
+

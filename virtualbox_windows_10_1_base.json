@@ -1,47 +1,67 @@
 {
   "builders": [
     {
-      "type": "virtualbox-iso",
-      "output_directory": "./output-win10-base/",
-      "vm_name": "win10-base",
-      "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--natpf1", "guest_winrm,tcp,,55985,,5985" ],
-        [ "modifyvm", "{{.Name}}", "--memory", "4096" ],
-        [ "modifyvm", "{{.Name}}", "--vram", "128" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
-      ],
-      "guest_additions_mode" : "disable",
-      "headless": true,
-      "guest_os_type": "Windows10_64",
-      "iso_url": "{{ user `iso_url` }}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
       "communicator": "winrm",
-      "winrm_username": "vagrant",
-      "winrm_password": "vagrant",
-      "winrm_timeout": "8h",
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "shutdown_timeout": "15m",
       "floppy_files": [
         "answer_files/10/Autounattend.xml",
         "./scripts/bootstrap.ps1",
         "./scripts/oracle.cer",
         "./scripts/unattend.xml"
-      ]
+      ],
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Windows10_64",
+      "headless": true,
+      "iso_checksum": "{{user `iso_checksum_type`}}:{{user `iso_checksum`}}",
+      "iso_url": "{{ user `iso_url` }}",
+      "output_directory": "./output-win10-base/",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "shutdown_timeout": "15m",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--natpf1",
+          "guest_winrm,tcp,,55985,,5985"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "4096"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "128"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ],
+      "vm_name": "win10-base",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "8h",
+      "winrm_username": "vagrant"
     }
   ],
   "provisioners": [
     {
-      "type": "powershell",
-      "elevated_user": "vagrant",
       "elevated_password": "vagrant",
-      "script": "./scripts/windows-base.ps1"
+      "elevated_user": "vagrant",
+      "script": "./scripts/windows-base.ps1",
+      "type": "powershell"
     }
   ],
   "variables": {
-    "iso_url": "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso",
-    "iso_checksum_type": "md5",
+    "autounattend": "./answer_files/10/Autounattend.xml",
     "iso_checksum": "b254ba13c50d777e4776a98684e11e11",
-    "autounattend": "./answer_files/10/Autounattend.xml"
+    "iso_checksum_type": "md5",
+    "iso_url": "https://software-download.microsoft.com/download/sg/17763.107.101029-1455.rs5_release_svc_refresh_CLIENT_LTSC_EVAL_x64FRE_en-us.iso"
   }
 }
+
