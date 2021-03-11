@@ -7,7 +7,7 @@ $software = @(
     'googlechrome',
     'notepadplusplus',
     'firefox',
-    'microsoft-windows-terminal',
+    'conemu',
     'keepass',
     'keybase',
     'joplin',
