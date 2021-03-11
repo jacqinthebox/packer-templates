@@ -7,7 +7,8 @@ $software = @(
     'googlechrome',
     'notepadplusplus',
     'firefox',
-    'microsoft-windows-terminal'
+    'microsoft-windows-terminal',
+    'keepass'
 )
 
 foreach ($s in  $software) {
