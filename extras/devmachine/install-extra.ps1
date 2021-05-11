@@ -3,7 +3,7 @@ Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-E
 Install-PackageProvider -Name Nuget -Force
 
 $software = @(
-    'visualstudiocode'
+    'visualstudiocode',
     'git',
     'conemu',
     'googlechrome',
@@ -14,8 +14,7 @@ $software = @(
     'kubernetes-cli',
     'firefox',
     'winscp',
-    'putty',
-    'sql-operations-studio'
+    'putty'
 )
 
 
